@@ -61,7 +61,7 @@
 
 @layer base {
   * {
-    @apply border-base-300;
+    @apply border-neutral-200;
   }
 
   body {
