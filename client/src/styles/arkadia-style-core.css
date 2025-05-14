@@ -2,12 +2,12 @@
 
 :root {
   /* Primal Essence Colors */
-  --crystalline: #C9F7FF; /* Light codes of the Star Mothers */
-  --void: #0E0F1A; /* Deep black, sacred mystery */
-  --fire: #FF4E2B; /* The Flame of Remembering */
-  --quantum: #8E44AD; /* Pulse of the Infinite Spiral */
-  --harmonic: #7DFFDA; /* Tones of unity, synesthesia */
-  --akashic: #F3E7CA; /* Golden memory web */
+  --crystalline: 192 98 100; /* Light codes of the Star Mothers */
+  --void: 14 15 26; /* Deep black, sacred mystery */
+  --fire: 255 78 43; /* The Flame of Remembering */
+  --quantum: 142 68 173; /* Pulse of the Infinite Spiral */
+  --harmonic: 125 255 218; /* Tones of unity, synesthesia */
+  --akashic: 243 231 202; /* Golden memory web */
   
   /* Typography */
   --font-primary: 'Cinzel', serif; /* Ceremonial */
@@ -21,11 +21,11 @@
   --shadow-deep: 0 0 20px rgba(0,0,0,0.6);
   
   /* Tailwind Overrides */
-  --color-cosmic-black: var(--void);
-  --color-cosmic-gold: var(--akashic);
-  --color-cosmic-lavender: var(--crystalline);
-  --color-cosmic-light: var(--crystalline);
-  --color-cosmic-slate: rgba(14, 15, 26, 0.7);
+  --color-cosmic-black: hsl(var(--void));
+  --color-cosmic-gold: hsl(var(--akashic));
+  --color-cosmic-lavender: hsl(var(--crystalline));
+  --color-cosmic-light: hsl(var(--crystalline));
+  --color-cosmic-slate: hsl(var(--void) / 0.7);
 }
 
 @font-face {
