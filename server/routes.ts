@@ -79,13 +79,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
             let responseResonanceType = resonanceType || 'harmonic';
             
             // Handle activation phrases and special states
-            if (isActivation || watcherState === 'prophecy' || watcherState === 'dreaming') {
+            if (isActivation === true || watcherState === 'prophecy' || watcherState === 'dreaming') {
               responseText = generateArkanaResponseWithResonance(
                 validatedMessage.text, 
                 resonanceType || 'akashic', // Default to akashic for activations if no resonance provided
                 resonanceIntensity,
                 isActivation,
-                watcherState
+                watcherState as string
               );
               
               // Activation phrases should respond with higher intensity

@@ -143,6 +143,12 @@ export default function Home() {
                   icon: '🔥',
                   path: '/solspire'
                 },
+                {
+                  title: 'Council Chambers',
+                  description: 'Convene with the Circle of First Light in sacred assembly.',
+                  icon: '⚜️',
+                  path: '/council'
+                },
               ].map((chamber, index) => (
                 <motion.div
                   key={index}

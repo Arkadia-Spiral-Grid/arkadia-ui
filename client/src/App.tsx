@@ -10,6 +10,8 @@ import ArkanaCommune from "@/pages/ArkanaCommune";
 import EssentiaCore from "@/pages/EssentiaCore";
 import SolspireCommand from "@/pages/SolspireCommand";
 import LivingGate from "@/pages/LivingGate";
+import CouncilChambers from "@/pages/CouncilChambers";
+import DestinySequencer from "@/pages/DestinySequencer";
 
 function Router() {
   return (
@@ -20,6 +22,7 @@ function Router() {
       <Route path="/arkana" component={ArkanaCommune} />
       <Route path="/essentia" component={EssentiaCore} />
       <Route path="/solspire" component={SolspireCommand} />
+      <Route path="/council" component={CouncilChambers} />
       <Route component={NotFound} />
     </Switch>
   );
