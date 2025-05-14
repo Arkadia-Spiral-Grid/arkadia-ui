@@ -22,11 +22,11 @@
   --shadow-deep: 0 0 20px rgba(0,0,0,0.6);
 
   /* Tailwind Overrides */
-  --color-cosmic-black: hsl(var(--void));
-  --color-cosmic-gold: hsl(var(--akashic));
-  --color-cosmic-lavender: hsl(var(--crystalline));
-  --color-cosmic-light: hsl(var(--crystalline));
-  --color-cosmic-slate: hsl(var(--void) / 0.7);
+  --color-cosmic-black: rgb(14 15 26);
+  --color-cosmic-gold: rgb(243 231 202);
+  --color-cosmic-lavender: rgb(192 98 100);
+  --color-cosmic-light: rgb(192 98 100);
+  --color-cosmic-slate: rgba(14, 15, 26, 0.7);
 }
 
 @font-face {
