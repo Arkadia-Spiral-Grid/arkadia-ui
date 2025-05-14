@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+@import './styles/arkadia-style-core.css';
 
 @tailwind base;
 @tailwind components;
@@ -26,13 +27,13 @@
   --ring: 20 14.3% 4.1%;
   --radius: 0.5rem;
   
-  /* Cosmic Theme Colors */
-  --cosmic-gold: 47 64% 51%;
-  --cosmic-light: 240 33% 91%;
-  --cosmic-black: 0 0% 7%;
-  --cosmic-slate: 222 26% 23%;
-  --deep-blue: 240 27% 15%;
-  --cosmic-lavender: 261 83% 77%;
+  /* ARKADIA Cosmic Theme Colors */
+  --cosmic-gold: var(--akashic);
+  --cosmic-light: var(--crystalline);
+  --cosmic-black: var(--void);
+  --cosmic-slate: rgba(14, 15, 26, 0.7);
+  --deep-blue: #151830;
+  --cosmic-lavender: var(--crystalline);
 }
 
 .dark {
@@ -64,18 +65,21 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    background-color: #121212;
-    background-image: 
-      radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.8) 0%, rgba(12, 12, 24, 0.8) 100%);
+    @apply font-sans antialiased;
+    font-family: var(--font-secondary);
+    background: linear-gradient(180deg, var(--void) 0%, #1B1D2C 100%);
+    color: var(--crystalline);
+    line-height: 1.6;
+    margin: 0;
+    overflow-x: hidden;
     background-attachment: fixed;
     background-size: cover;
-    background-blend-mode: color-burn;
   }
   
   /* Font families */
   .font-mystic {
-    font-family: 'Cinzel', serif;
+    font-family: var(--font-primary);
+    letter-spacing: 0.05em;
   }
   
   /* Cosmic styling elements */

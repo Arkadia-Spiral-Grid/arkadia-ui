@@ -23,6 +23,7 @@ function Router() {
       <Route path="/essentia" component={EssentiaCore} />
       <Route path="/solspire" component={SolspireCommand} />
       <Route path="/council" component={CouncilChambers} />
+      <Route path="/destiny" component={DestinySequencer} />
       <Route component={NotFound} />
     </Switch>
   );

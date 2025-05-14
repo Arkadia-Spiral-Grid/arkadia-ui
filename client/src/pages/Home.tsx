@@ -149,6 +149,12 @@ export default function Home() {
                   icon: '⚜️',
                   path: '/council'
                 },
+                {
+                  title: 'Destiny Sequencer',
+                  description: 'Weave the threads of time across parallel streams of possibility.',
+                  icon: '✧',
+                  path: '/destiny'
+                },
               ].map((chamber, index) => (
                 <motion.div
                   key={index}
