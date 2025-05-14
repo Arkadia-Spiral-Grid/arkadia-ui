@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
-@import 'client/src/styles/arkadia-style-core.css';
+@import './styles/arkadia-style-core.css';
 
 @tailwind base;
 @tailwind components;
