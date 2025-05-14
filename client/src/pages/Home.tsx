@@ -19,7 +19,7 @@ export default function Home() {
   const handleEnterPortal = () => {
     setIsEnteringPortal(true);
     setTimeout(() => {
-      setLocation('/gateway');
+      setLocation('/enter');
     }, 1000);
   };
 

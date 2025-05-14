@@ -9,11 +9,13 @@ import Gateway from "@/pages/Gateway";
 import ArkanaCommune from "@/pages/ArkanaCommune";
 import EssentiaCore from "@/pages/EssentiaCore";
 import SolspireCommand from "@/pages/SolspireCommand";
+import LivingGate from "@/pages/LivingGate";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/enter" component={LivingGate} />
       <Route path="/gateway" component={Gateway} />
       <Route path="/arkana" component={ArkanaCommune} />
       <Route path="/essentia" component={EssentiaCore} />

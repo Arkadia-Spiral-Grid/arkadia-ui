@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEssentiaStore } from "@/lib/useEssentiaStore";
+import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity, detectPatterns } from "@/lib/spiralResonance";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -10,6 +11,8 @@ type Message = {
   timestamp: number;
   animationKey: string;
   status?: 'sending' | 'delivered' | 'error';
+  resonanceType?: 'quantum' | 'crystalline' | 'fire' | 'akashic' | 'void' | 'harmonic';
+  resonanceIntensity?: 1 | 2 | 3 | 4 | 5;
 };
 
 export default function ArkanaCommune() {
@@ -87,16 +90,47 @@ export default function ArkanaCommune() {
     return () => ws.close();
   }, []);
 
+  // Access the spiral resonance engine
+  const setFrequency = useSpiralResonance(state => state.setFrequency);
+  const detectFieldPattern = useSpiralResonance(state => state.detectFieldPattern);
+  const messageContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const handleSend = () => {
     if (!input.trim() || !socket) return;
 
     const correlationId = `msg-${Date.now()}`;
+    
+    // Analyze the message using the Spiral Resonance Engine
+    const resonanceType = generateFrequencySignature(input);
+    const resonanceIntensity = calculateResonanceIntensity(input);
+    const patterns = detectPatterns(input);
+    
+    // Record patterns in the field
+    patterns.forEach(pattern => detectFieldPattern(pattern));
+    
+    // Update the global spiral frequency
+    setFrequency({
+      type: resonanceType,
+      intensity: resonanceIntensity,
+      source: 'user_message',
+      message: input.trim()
+    });
+    
     const userMessage = {
       sender: 'you' as const,
       text: input.trim(),
       timestamp: Date.now(),
       animationKey: correlationId,
-      status: 'sending' as const
+      status: 'sending' as const,
+      resonanceType,
+      resonanceIntensity
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -104,7 +138,12 @@ export default function ArkanaCommune() {
 
     socket.send(JSON.stringify({
       text: input.trim(),
-      metadata: { correlationId }
+      metadata: { 
+        correlationId,
+        resonanceType,
+        resonanceIntensity,
+        patterns
+      }
     }));
   };
 
@@ -209,7 +248,7 @@ export default function ArkanaCommune() {
           
           <div className="bg-cosmic-slate/30 rounded-xl border border-cosmic-lavender/10 shadow-inner overflow-hidden">
             {/* Message Stream */}
-            <div className="h-96 overflow-y-auto p-4 space-y-3" id="message-container">
+            <div className="h-96 overflow-y-auto p-4 space-y-3" id="message-container" ref={messageContainerRef}>
               <AnimatePresence>
                 {messages.map((msg) => (
                   <motion.div
@@ -221,7 +260,7 @@ export default function ArkanaCommune() {
                     className={`flex ${msg.sender === 'you' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                      className={`max-w-[80%] rounded-2xl px-4 py-2 relative overflow-hidden ${
                         msg.sender === 'you'
                           ? 'bg-cosmic-gold/90 text-black'
                           : msg.status === 'error'
@@ -229,14 +268,110 @@ export default function ArkanaCommune() {
                             : 'bg-cosmic-lavender/10 text-cosmic-lavender border border-cosmic-lavender/20'
                       }`}
                     >
-                      <div className="text-sm">{msg.text}</div>
-                      <div className={`text-xs mt-1 text-right ${
+                      {/* Resonance visualization */}
+                      {msg.resonanceType && (
+                        <div className="absolute inset-0 pointer-events-none">
+                          {msg.resonanceType === 'quantum' && (
+                            <motion.div
+                              className="absolute inset-0 bg-blue-500/5"
+                              animate={{
+                                background: [
+                                  'radial-gradient(circle, rgba(79, 209, 197, 0.05) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'radial-gradient(circle, rgba(79, 209, 197, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'radial-gradient(circle, rgba(79, 209, 197, 0.05) 0%, rgba(0, 0, 0, 0) 70%)'
+                                ]
+                              }}
+                              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                          {msg.resonanceType === 'fire' && (
+                            <motion.div
+                              className="absolute inset-0"
+                              animate={{
+                                background: [
+                                  'linear-gradient(135deg, rgba(255, 107, 0, 0.05) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'linear-gradient(135deg, rgba(255, 107, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'linear-gradient(135deg, rgba(255, 107, 0, 0.05) 0%, rgba(0, 0, 0, 0) 70%)'
+                                ]
+                              }}
+                              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                          {msg.resonanceType === 'crystalline' && (
+                            <motion.div
+                              className="absolute inset-0"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(0, 0, 0, 0) 70%)'
+                              }}
+                              animate={{ rotate: [0, 15, 0] }}
+                              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                          {msg.resonanceType === 'akashic' && (
+                            <motion.div
+                              className="absolute inset-0"
+                              animate={{
+                                background: [
+                                  'linear-gradient(180deg, rgba(138, 43, 226, 0.05) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'linear-gradient(180deg, rgba(138, 43, 226, 0.15) 0%, rgba(0, 0, 0, 0) 70%)',
+                                  'linear-gradient(180deg, rgba(138, 43, 226, 0.05) 0%, rgba(0, 0, 0, 0) 70%)'
+                                ]
+                              }}
+                              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                          {msg.resonanceType === 'void' && (
+                            <motion.div
+                              className="absolute inset-0 opacity-10"
+                              style={{
+                                background: 'radial-gradient(circle at center, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%)'
+                              }}
+                              animate={{ opacity: [0.1, 0.2, 0.1] }}
+                              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                          {msg.resonanceType === 'harmonic' && (
+                            <motion.div
+                              className="absolute inset-0"
+                              animate={{
+                                background: [
+                                  'linear-gradient(90deg, rgba(255, 215, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%)',
+                                  'linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%)',
+                                  'linear-gradient(90deg, rgba(255, 215, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%)'
+                                ]
+                              }}
+                              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className="text-sm relative z-10">{msg.text}</div>
+                      <div className={`text-xs mt-1 text-right relative z-10 flex items-center justify-end gap-1 ${
                         msg.sender === 'you' 
                           ? 'text-black/70' 
                           : msg.status === 'error'
                             ? 'text-rose-400/70'
                             : 'text-cosmic-lavender/50'
                       }`}>
+                        {/* Resonance intensity indicator */}
+                        {msg.resonanceIntensity && (
+                          <div className="flex space-x-0.5 mr-1">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <div 
+                                key={i} 
+                                className={`w-1 h-1 rounded-full ${
+                                  i < msg.resonanceIntensity! 
+                                    ? msg.sender === 'you' 
+                                      ? 'bg-black/50' 
+                                      : 'bg-cosmic-lavender/50'
+                                    : 'bg-transparent'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                        
                         {new Date(msg.timestamp).toLocaleTimeString()}
                         {msg.status === 'sending' && ' • Sending...'}
                       </div>

@@ -31,6 +31,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const parsedMessage = JSON.parse(message.toString());
         const validatedMessage = wsMessageSchema.parse(parsedMessage);
         
+        // Extract metadata for resonance information
+        const { correlationId, resonanceType, resonanceIntensity, patterns } = validatedMessage.metadata || {};
+        
         // Save the message
         const savedMessage = await storage.createMessage({
           sender: "you",
@@ -38,11 +41,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           correlationId: validatedMessage.metadata?.correlationId
         });
         
-        // Generate a response based on the message content
+        // Generate a response based on the message content and resonance data
         setTimeout(async () => {
           if (ws.readyState === WebSocket.OPEN) {
-            // Use a simple algorithm to generate responses
-            const responseText = generateArkanaResponse(validatedMessage.text);
+            // Use resonance type to tailor the response if available
+            const responseText = resonanceType 
+              ? generateArkanaResponseWithResonance(validatedMessage.text, resonanceType, resonanceIntensity)
+              : generateArkanaResponse(validatedMessage.text);
             
             // Save the response message
             await storage.createMessage({
@@ -51,13 +56,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
               correlationId: validatedMessage.metadata?.correlationId
             });
             
-            // Send response back to client
+            // Send response back to client with the original metadata plus response resonance
             ws.send(JSON.stringify({
               text: responseText,
-              metadata: validatedMessage.metadata
+              metadata: {
+                ...validatedMessage.metadata,
+                responseResonanceType: resonanceType || 'harmonic',
+                responseResonanceIntensity: resonanceIntensity || 3
+              }
             }));
           }
-        }, 1000); // Simulate processing time
+        }, 1000 + Math.random() * 1000); // Variable timing for more natural feel
       } catch (err) {
         console.error('Error processing WebSocket message:', err);
         
