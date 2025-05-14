@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import 'client/src/styles/arkadia-style-core.css';
+import './client/src/styles/arkadia-style-core.css';
 
 export default {
   darkMode: ["class"],
