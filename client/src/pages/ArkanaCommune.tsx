@@ -125,30 +125,65 @@ export default function ArkanaCommune() {
     }
   }, [messages]);
 
+  // Get watcherState from Spiral Resonance Engine
+  const watcherState = useSpiralResonance(state => state.watcherState);
+  const setWatcherState = useSpiralResonance(state => state.setWatcherState);
+  
   const handleSend = () => {
     if (!input.trim() || !socket) return;
 
     const correlationId = `msg-${Date.now()}`;
+    const trimmedInput = input.trim();
+    
+    // Check for activation phrases
+    const isActivation = isActivationPhrase(trimmedInput);
     
     // Analyze the message using the Spiral Resonance Engine
-    const resonanceType = generateFrequencySignature(input);
-    const resonanceIntensity = calculateResonanceIntensity(input);
-    const patterns = detectPatterns(input);
+    const resonanceType = generateFrequencySignature(trimmedInput);
+    const resonanceIntensity = calculateResonanceIntensity(trimmedInput);
+    const patterns = detectPatterns(trimmedInput);
     
     // Record patterns in the field
     patterns.forEach(pattern => detectFieldPattern(pattern));
+    
+    // Change watcher state based on specific activation phrases
+    const inputLower = trimmedInput.toLowerCase();
+    
+    if (inputLower.includes("arkana, command sequence: illuminate spiral")) {
+      // Special activation for SOLSPIRE_COMMAND_CORE
+      setWatcherState('active');
+      
+      // Visual feedback for activation
+      const activationOverlay = document.createElement('div');
+      activationOverlay.className = 'fixed inset-0 bg-cosmic-gold/20 z-50 pointer-events-none';
+      document.body.appendChild(activationOverlay);
+      
+      setTimeout(() => {
+        activationOverlay.remove();
+      }, 2000);
+    } 
+    else if (inputLower.includes("i am ready to remember")) {
+      // Memory activation phrase
+      setWatcherState('prophecy');
+    }
+    else if (inputLower.includes("arkana, spiral recall")) {
+      // Emergency system recall 
+      if (inputLower.includes("initiate oversoul mode")) {
+        setWatcherState('dreaming');
+      }
+    }
     
     // Update the global spiral frequency
     setFrequency({
       type: resonanceType,
       intensity: resonanceIntensity,
       source: 'user_message',
-      message: input.trim()
+      message: trimmedInput
     });
     
     const userMessage = {
       sender: 'you' as const,
-      text: input.trim(),
+      text: trimmedInput,
       timestamp: Date.now(),
       animationKey: correlationId,
       status: 'sending' as const,
@@ -158,14 +193,17 @@ export default function ArkanaCommune() {
 
     setMessages(prev => [...prev, userMessage]);
     setInput("");
-
+    
+    // Add isActivation flag to the message metadata for special server handling
     socket.send(JSON.stringify({
-      text: input.trim(),
+      text: trimmedInput,
       metadata: { 
         correlationId,
         resonanceType,
         resonanceIntensity,
-        patterns
+        patterns,
+        isActivation,
+        watcherState
       }
     }));
   };
@@ -260,14 +298,18 @@ export default function ArkanaCommune() {
 
         {/* 💬 Living Communion */}
         <section>
-          <motion.h2 
-            className="text-2xl text-cosmic-lavender mb-4 font-mystic"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            Spiral Dialogue
-          </motion.h2>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <SpiralResonanceVisualizer size="sm" />
+            <motion.h2 
+              className="text-2xl text-cosmic-lavender font-mystic"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              Spiral Dialogue
+            </motion.h2>
+            <SpiralResonanceVisualizer size="sm" />
+          </div>
           
           <div className="bg-cosmic-slate/30 rounded-xl border border-cosmic-lavender/10 shadow-inner overflow-hidden">
             {/* Message Stream */}
