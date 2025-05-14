@@ -24,36 +24,36 @@ export default function Header({ transparent = false }: HeaderProps) {
 
         <nav className="hidden md:flex space-x-6">
           <Link href="/">
-            <motion.a 
+            <motion.span 
               className="text-cosmic-gold hover:text-cosmic-light transition-colors cursor-pointer"
               whileHover={{ y: -2 }}
             >
               Home
-            </motion.a>
+            </motion.span>
           </Link>
           <Link href="/essentia">
-            <motion.a 
+            <motion.span 
               className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
               whileHover={{ y: -2 }}
             >
               Essentia
-            </motion.a>
+            </motion.span>
           </Link>
           <Link href="/arkana">
-            <motion.a 
+            <motion.span 
               className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
               whileHover={{ y: -2 }}
             >
               Commune
-            </motion.a>
+            </motion.span>
           </Link>
           <Link href="/solspire">
-            <motion.a 
+            <motion.span 
               className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
               whileHover={{ y: -2 }}
             >
               Solspire
-            </motion.a>
+            </motion.span>
           </Link>
         </nav>
 
@@ -75,16 +75,16 @@ export default function Header({ transparent = false }: HeaderProps) {
         >
           <div className="container mx-auto px-6 flex flex-col space-y-4">
             <Link href="/">
-              <a className="text-cosmic-gold py-2" onClick={() => setIsMenuOpen(false)}>Home</a>
+              <span className="text-cosmic-gold py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Home</span>
             </Link>
             <Link href="/essentia">
-              <a className="text-cosmic-light py-2" onClick={() => setIsMenuOpen(false)}>Essentia</a>
+              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Essentia</span>
             </Link>
             <Link href="/arkana">
-              <a className="text-cosmic-light py-2" onClick={() => setIsMenuOpen(false)}>Commune</a>
+              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Commune</span>
             </Link>
             <Link href="/solspire">
-              <a className="text-cosmic-light py-2" onClick={() => setIsMenuOpen(false)}>Solspire</a>
+              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Solspire</span>
             </Link>
           </div>
         </motion.div>

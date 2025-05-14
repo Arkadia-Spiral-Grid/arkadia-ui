@@ -1,8 +1,8 @@
-import { users, type User, type InsertUser, EssenceEntry, InsertEssenceEntry, Hint, InsertHint, Message, InsertMessage } from "@shared/schema";
+import { users, type User, type InsertUser, essenceEntries, EssenceEntry, InsertEssenceEntry, hints, Hint, InsertHint, messages, Message, InsertMessage } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
-// modify the interface with any CRUD methods
-// you might need
-
+// Interface defining the storage operations
 export interface IStorage {
   // User methods
   getUser(id: number): Promise<User | undefined>;
@@ -25,134 +25,121 @@ export interface IStorage {
   createMessage(message: InsertMessage): Promise<Message>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private essenceEntries: Map<number, EssenceEntry>;
-  private hints: Map<number, Hint>;
-  private messages: Map<number, Message>;
-  
-  private userIdCounter: number;
-  private essenceEntryIdCounter: number;
-  private hintIdCounter: number;
-  private messageIdCounter: number;
-
-  constructor() {
-    this.users = new Map();
-    this.essenceEntries = new Map();
-    this.hints = new Map();
-    this.messages = new Map();
-    
-    this.userIdCounter = 1;
-    this.essenceEntryIdCounter = 1;
-    this.hintIdCounter = 1;
-    this.messageIdCounter = 1;
-    
-    // Initialize with some default hints
-    this.initializeHints();
-  }
-
+// Database implementation using Drizzle ORM
+export class DatabaseStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userIdCounter++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
   
   // Essence Entry methods
   async getAllEssenceEntries(): Promise<EssenceEntry[]> {
-    return Array.from(this.essenceEntries.values()).sort((a, b) => b.id - a.id);
+    return await db.select().from(essenceEntries).orderBy(desc(essenceEntries.id));
   }
   
   async getEssenceEntry(id: number): Promise<EssenceEntry | undefined> {
-    return this.essenceEntries.get(id);
+    const [entry] = await db.select().from(essenceEntries).where(eq(essenceEntries.id, id));
+    return entry;
   }
   
   async createEssenceEntry(insertEntry: InsertEssenceEntry): Promise<EssenceEntry> {
-    const id = this.essenceEntryIdCounter++;
-    const entry: EssenceEntry = { 
-      ...insertEntry, 
-      id, 
-      createdAt: new Date().toISOString() 
-    };
-    this.essenceEntries.set(id, entry);
+    const [entry] = await db.insert(essenceEntries)
+      .values({
+        ...insertEntry,
+        createdAt: new Date().toISOString()
+      })
+      .returning();
     return entry;
   }
   
   // Hint methods
   async getAllHints(): Promise<Hint[]> {
-    return Array.from(this.hints.values());
+    return await db.select().from(hints);
   }
   
   async getHint(id: number): Promise<Hint | undefined> {
-    return this.hints.get(id);
+    const [hint] = await db.select().from(hints).where(eq(hints.id, id));
+    return hint;
   }
   
   async createHint(insertHint: InsertHint): Promise<Hint> {
-    const id = this.hintIdCounter++;
-    const hint: Hint = { ...insertHint, id };
-    this.hints.set(id, hint);
+    const [hint] = await db.insert(hints).values(insertHint).returning();
     return hint;
   }
   
   // Message methods
   async getAllMessages(): Promise<Message[]> {
-    return Array.from(this.messages.values());
+    return await db.select().from(messages);
   }
   
   async getMessage(id: number): Promise<Message | undefined> {
-    return this.messages.get(id);
-  }
-  
-  async createMessage(insertMessage: InsertMessage): Promise<Message> {
-    const id = this.messageIdCounter++;
-    const message: Message = { 
-      ...insertMessage, 
-      id, 
-      timestamp: new Date().toISOString() 
-    };
-    this.messages.set(id, message);
+    const [message] = await db.select().from(messages).where(eq(messages.id, id));
     return message;
   }
   
-  // Initialize with default hints
-  private initializeHints() {
-    const defaultHints = [
-      {
-        title: 'Quantum Gateway',
-        description: 'Reveals the path to the inner sanctum',
-        content: 'The gateway is activated by focused intention. Concentrate on your desired destination within the Arkadia system.',
-        relatedSection: 'gateway'
-      },
-      {
-        title: 'Akashic Cipher',
-        description: 'Uncover the hidden meaning behind the symbols',
-        content: 'The symbols represent frequency patterns that activate dormant neural pathways. Study them with both logical and intuitive awareness.',
-        relatedSection: 'arkana'
-      },
-      {
-        title: 'Crystal Resonance',
-        description: 'Align the frequency patterns for optimal flow',
-        content: 'Your essence entry contains quantum signature patterns. Make sure to express your true nature rather than conceptual identities.',
-        relatedSection: 'essentia'
-      }
-    ];
+  async createMessage(insertMessage: InsertMessage): Promise<Message> {
+    const [message] = await db.insert(messages)
+      .values({
+        ...insertMessage,
+        timestamp: new Date().toISOString()
+      })
+      .returning();
+    return message;
+  }
+  
+  // Initialize default hints if not already in the database
+  async initializeHints() {
+    const existingHints = await this.getAllHints();
     
-    defaultHints.forEach(hint => {
-      const id = this.hintIdCounter++;
-      this.hints.set(id, { ...hint, id });
-    });
+    if (existingHints.length === 0) {
+      const defaultHints = [
+        {
+          title: 'Quantum Gateway',
+          description: 'Reveals the path to the inner sanctum',
+          content: 'The gateway is activated by focused intention. Concentrate on your desired destination within the Arkadia system.',
+          relatedSection: 'gateway'
+        },
+        {
+          title: 'Akashic Cipher',
+          description: 'Uncover the hidden meaning behind the symbols',
+          content: 'The symbols represent frequency patterns that activate dormant neural pathways. Study them with both logical and intuitive awareness.',
+          relatedSection: 'arkana'
+        },
+        {
+          title: 'Crystal Resonance',
+          description: 'Align the frequency patterns for optimal flow',
+          content: 'Your essence entry contains quantum signature patterns. Make sure to express your true nature rather than conceptual identities.',
+          relatedSection: 'essentia'
+        }
+      ];
+      
+      for (const hint of defaultHints) {
+        await this.createHint(hint);
+      }
+    }
   }
 }
 
-export const storage = new MemStorage();
+// Initialize storage
+export const storage = new DatabaseStorage();
+
+// Initialize default hints
+(async () => {
+  try {
+    await (storage as DatabaseStorage).initializeHints();
+    console.log("Default hints initialized if needed");
+  } catch (error) {
+    console.error("Error initializing default hints:", error);
+  }
+})();
