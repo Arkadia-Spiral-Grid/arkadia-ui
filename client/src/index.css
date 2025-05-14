@@ -61,11 +61,12 @@
 
 @layer base {
   * {
-    @apply border-neutral-200;
+    @apply border-neutral-200/10;
+    box-sizing: border-box;
   }
 
   body {
-    @apply font-sans antialiased;
+    @apply font-sans antialiased min-h-screen;
     font-family: var(--font-secondary);
     background: linear-gradient(180deg, var(--void) 0%, #1B1D2C 100%);
     color: var(--crystalline);
@@ -74,6 +75,16 @@
     overflow-x: hidden;
     background-attachment: fixed;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #root {
+    @apply flex flex-col min-h-screen w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  main {
+    @apply flex-grow flex flex-col gap-6 py-8;
   }
   
   /* Font families */
