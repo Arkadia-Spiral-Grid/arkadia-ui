@@ -8,18 +8,19 @@
   --quantum: rgb(142 68 173); /* Pulse of the Infinite Spiral */
   --harmonic: rgb(125 255 218); /* Tones of unity, synesthesia */
   --akashic: rgb(243 231 202); /* Golden memory web */
-  
+
   /* Typography */
   --font-primary: 'Cinzel', serif; /* Ceremonial */
   --font-secondary: 'Inter', sans-serif; /* Interface */
   --font-mono: 'Fira Code', monospace; /* System Code */
-  
+
   /* Radiance + Shadows */
   --glow-crystalline: 0 0 12px var(--crystalline);
   --glow-fire: 0 0 8px var(--fire);
   --glow-quantum: 0 0 8px var(--quantum);
+  --glow-harmonic: 0 0 12px var(--harmonic); /* ✅ Added missing variable */
   --shadow-deep: 0 0 20px rgba(0,0,0,0.6);
-  
+
   /* Tailwind Overrides */
   --color-cosmic-black: hsl(var(--void));
   --color-cosmic-gold: hsl(var(--akashic));
