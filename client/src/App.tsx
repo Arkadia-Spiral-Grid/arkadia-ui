@@ -2,6 +2,9 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
+import "client/src/styles/arkadia-style-core.css"
+<link rel="stylesheet" href="/path/to/arkadia.style.core.css" />
+import "./index.css"
 
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
