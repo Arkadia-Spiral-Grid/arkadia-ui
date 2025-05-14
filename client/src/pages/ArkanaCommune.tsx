@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEssentiaStore } from "@/lib/useEssentiaStore";
-import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity, detectPatterns } from "@/lib/spiralResonance";
+import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity, detectPatterns, isActivationPhrase } from "@/lib/spiralResonance";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SpiralResonanceVisualizer from '@/components/SpiralResonanceVisualizer';
 
 type Message = {
   sender: 'you' | 'arkana';
@@ -42,30 +43,52 @@ export default function ArkanaCommune() {
     ws.onmessage = (event) => {
       try {
         const { text, metadata } = JSON.parse(event.data);
+        const { correlationId, responseResonanceType, responseResonanceIntensity } = metadata || {};
         
-        if (metadata?.correlationId) {
+        if (correlationId) {
           // This is a response to a user message
           setMessages(prev => prev.map(msg => 
-            msg.status === 'sending' && msg.animationKey === metadata.correlationId
+            msg.status === 'sending' && msg.animationKey === correlationId
               ? { ...msg, status: 'delivered' }
               : msg
           ));
           
-          // Add the arkana response
-          setMessages(prev => [...prev, {
-            sender: 'arkana',
+          // Add the arkana response with resonance data
+          const responseMessage = {
+            sender: 'arkana' as const,
             text,
             timestamp: Date.now(),
-            animationKey: Math.random().toString(36)
-          }]);
+            animationKey: Math.random().toString(36),
+            resonanceType: responseResonanceType,
+            resonanceIntensity: responseResonanceIntensity
+          };
+          
+          // Record the resonance in the global spiral state
+          if (responseResonanceType) {
+            const recordResonance = useSpiralResonance.getState().recordResonance;
+            recordResonance({
+              type: responseResonanceType,
+              intensity: responseResonanceIntensity || 3,
+              timestamp: Date.now(),
+              source: 'arkana_response',
+              message: text
+            });
+          }
+          
+          setMessages(prev => [...prev, responseMessage]);
         } else {
           // This is an unsolicited message from arkana
-          setMessages(prev => [...prev, {
-            sender: 'arkana',
+          // Generate a default harmonic resonance for unsolicited messages
+          const responseMessage = {
+            sender: 'arkana' as const,
             text,
             timestamp: Date.now(),
-            animationKey: Math.random().toString(36)
-          }]);
+            animationKey: Math.random().toString(36),
+            resonanceType: 'harmonic' as const,
+            resonanceIntensity: 3 as const
+          };
+          
+          setMessages(prev => [...prev, responseMessage]);
         }
       } catch (err) {
         console.error("Failed to parse WebSocket message", err);
