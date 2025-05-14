@@ -2,12 +2,12 @@
 
 :root {
   /* Primal Essence Colors */
-  --crystalline: 192 98 100; /* Light codes of the Star Mothers */
-  --void: 14 15 26; /* Deep black, sacred mystery */
-  --fire: 255 78 43; /* The Flame of Remembering */
-  --quantum: 142 68 173; /* Pulse of the Infinite Spiral */
-  --harmonic: 125 255 218; /* Tones of unity, synesthesia */
-  --akashic: 243 231 202; /* Golden memory web */
+  --crystalline: rgb(192 98 100); /* Light codes of the Star Mothers */
+  --void: rgb(14 15 26); /* Deep black, sacred mystery */
+  --fire: rgb(255 78 43); /* The Flame of Remembering */
+  --quantum: rgb(142 68 173); /* Pulse of the Infinite Spiral */
+  --harmonic: rgb(125 255 218); /* Tones of unity, synesthesia */
+  --akashic: rgb(243 231 202); /* Golden memory web */
   
   /* Typography */
   --font-primary: 'Cinzel', serif; /* Ceremonial */
