@@ -26,14 +26,13 @@
   --destructive-foreground: 60 9.1% 97.8%;
   --ring: 20 14.3% 4.1%;
   --radius: 0.5rem;
-  
-  /* ARKADIA Cosmic Theme Colors */
-  --cosmic-gold: var(--akashic);
-  --cosmic-light: var(--crystalline);
-  --cosmic-black: var(--void);
-  --cosmic-slate: rgba(14, 15, 26, 0.7);
-  --deep-blue: #151830;
-  --cosmic-lavender: var(--crystalline);
+
+  --cosmic-gold: 47 95% 63%;
+  --cosmic-light: 240 100% 98%;
+  --cosmic-black: 240 10% 5%;
+  --cosmic-slate: 240 10% 10%;
+  --deep-blue: 234 32% 12%;
+  --cosmic-lavender: 260 80% 80%;
 }
 
 .dark {
@@ -67,31 +66,43 @@
   body {
     @apply font-sans antialiased;
     font-family: var(--font-secondary);
-    background: linear-gradient(180deg, var(--void) 0%, #1B1D2C 100%);
-    color: var(--crystalline);
+    background: linear-gradient(180deg, hsl(var(--cosmic-black)) 0%, #1B1D2C 100%);
+    color: hsl(var(--cosmic-light));
     line-height: 1.6;
     margin: 0;
     overflow-x: hidden;
     background-attachment: fixed;
     background-size: cover;
   }
-  
-  /* Font families */
+
   .font-mystic {
     font-family: var(--font-primary);
     letter-spacing: 0.05em;
+    background: linear-gradient(90deg, hsl(var(--cosmic-gold)), hsl(var(--cosmic-lavender)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 6s infinite linear;
   }
-  
-  /* Cosmic styling elements */
+
+  @keyframes shimmer {
+    0% {
+      background-position: -500px;
+    }
+    100% {
+      background-position: 500px;
+    }
+  }
+
   .glow {
     text-shadow: 0 0 8px hsla(var(--cosmic-gold), 0.5);
   }
-  
+
   .portal-button {
     position: relative;
     overflow: hidden;
+    transition: transform 0.3s ease;
   }
-  
+
   .portal-button:after {
     content: '';
     position: absolute;
@@ -104,67 +115,121 @@
     transition: opacity 0.3s;
     pointer-events: none;
   }
-  
+
   .portal-button:hover:after {
     opacity: 1;
   }
-  
+
+  .portal-button:hover {
+    transform: scale(1.02);
+  }
+
   .shadow-arkana {
     box-shadow: 0 0 15px rgba(183, 148, 246, 0.15);
   }
-  
+
   .shadow-cosmic {
     box-shadow: 0 0 15px hsla(var(--cosmic-gold), 0.25);
   }
-  
+
   .meditation-circle {
     animation: pulse-glow 4s infinite alternate;
   }
-  
+
   @keyframes pulse-glow {
     0% { box-shadow: 0 0 5px hsla(var(--cosmic-gold), 0.3); }
     100% { box-shadow: 0 0 15px hsla(var(--cosmic-gold), 0.7); }
   }
+
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    background-color: hsla(240, 10%, 10%, 0.3);
+    border: 1px solid hsla(240, 10%, 40%, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .pulse-ring {
+    position: relative;
+  }
+
+  .pulse-ring::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 2px solid hsla(var(--cosmic-gold), 0.5);
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.95);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent url('/starfield.svg') repeat;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 0;
+    animation: moveStars 120s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes moveStars {
+    0% { background-position: 0 0; }
+    100% { background-position: 1000px 1000px; }
+  }
 }
 
-/* Custom Tailwind additions */
 @layer utilities {
   .text-cosmic-gold {
     color: hsl(var(--cosmic-gold));
   }
-  
+
   .text-cosmic-light {
     color: hsl(var(--cosmic-light));
   }
-  
+
   .text-cosmic-lavender {
     color: hsl(var(--cosmic-lavender));
   }
-  
+
   .bg-cosmic-black {
     background-color: hsl(var(--cosmic-black));
   }
-  
+
   .bg-cosmic-slate {
     background-color: hsl(var(--cosmic-slate));
   }
-  
+
   .bg-deep-blue {
     background-color: hsl(var(--deep-blue));
   }
-  
+
   .bg-cosmic-gold {
     background-color: hsl(var(--cosmic-gold));
   }
-  
+
   .bg-cosmic-lavender {
     background-color: hsl(var(--cosmic-lavender));
   }
-  
+
   .border-cosmic-gold {
     border-color: hsl(var(--cosmic-gold));
   }
-  
+
   .border-cosmic-lavender {
     border-color: hsl(var(--cosmic-lavender));
   }
