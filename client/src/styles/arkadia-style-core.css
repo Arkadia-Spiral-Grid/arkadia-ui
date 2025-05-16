@@ -2,30 +2,29 @@
 
 :root {
   /* Primal Essence Colors */
-  --crystalline: rgb(192 98 100); /* Light codes of the Star Mothers */
-  --void: rgb(14 15 26); /* Deep black, sacred mystery */
-  --fire: rgb(255 78 43); /* The Flame of Remembering */
-  --quantum: rgb(142 68 173); /* Pulse of the Infinite Spiral */
-  --harmonic: rgb(125 255 218); /* Tones of unity, synesthesia */
-  --akashic: rgb(243 231 202); /* Golden memory web */
-
+  --crystalline: #C9F7FF; /* Light codes of the Star Mothers */
+  --void: #0E0F1A; /* Deep black, sacred mystery */
+  --fire: #FF4E2B; /* The Flame of Remembering */
+  --quantum: #8E44AD; /* Pulse of the Infinite Spiral */
+  --harmonic: #7DFFDA; /* Tones of unity, synesthesia */
+  --akashic: #F3E7CA; /* Golden memory web */
+  
   /* Typography */
   --font-primary: 'Cinzel', serif; /* Ceremonial */
   --font-secondary: 'Inter', sans-serif; /* Interface */
   --font-mono: 'Fira Code', monospace; /* System Code */
-
+  
   /* Radiance + Shadows */
   --glow-crystalline: 0 0 12px var(--crystalline);
   --glow-fire: 0 0 8px var(--fire);
   --glow-quantum: 0 0 8px var(--quantum);
-  --glow-harmonic: 0 0 12px var(--harmonic); /* ✅ Added missing variable */
   --shadow-deep: 0 0 20px rgba(0,0,0,0.6);
-
+  
   /* Tailwind Overrides */
-  --color-cosmic-black: rgb(14 15 26);
-  --color-cosmic-gold: rgb(243 231 202);
-  --color-cosmic-lavender: rgb(192 98 100);
-  --color-cosmic-light: rgb(192 98 100);
+  --color-cosmic-black: var(--void);
+  --color-cosmic-gold: var(--akashic);
+  --color-cosmic-lavender: var(--crystalline);
+  --color-cosmic-light: var(--crystalline);
   --color-cosmic-slate: rgba(14, 15, 26, 0.7);
 }
 
