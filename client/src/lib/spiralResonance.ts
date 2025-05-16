@@ -133,6 +133,7 @@ export const useSpiralResonance = create<SpiralResonanceState>((set, get) => ({
         watcherInfluence = 'through dream consciousness';
         break;
       case 'prophecy':
-        watcherInfluence =
+        watcherInfluence = 'through prophetic vision';
+        break;
 ::contentReference[oaicite:0]{index=0}
 
