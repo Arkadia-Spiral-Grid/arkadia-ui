@@ -1,3 +1,4 @@
+
 {
   "name": "rest-express",
   "version": "1.0.0",
@@ -39,7 +40,6 @@
     "wouter": "^3.3.5",
     "zod": "^3.24.2",
     "zustand": "^5.0.4",
-    // Purified Radix components (bundled to reduce vulnerabilities)
     "@radix-ui/bundle": "^1.0.0"
   },
   "devDependencies": {
