@@ -17,7 +17,7 @@ const LivingGate = () => {
 
 // Moon-phase synchronization - FIXED LINE 20
 useEffect(() => {
-  const moonPhase = Math.floor((Date.now() / 2551443) % 8; // Added missing parenthesis
+  const moonPhase = Math.floor((Date.now() / 2551443) % 8); // Fixed parenthesis
   if (moonPhase === 2) {
     spiral.setFrequency({ type: "crystalline", intensity: 4 }); // Fixed typo in "crystalline"
     console.log("Waxing Crescent: Crystalline resonance amplified");
