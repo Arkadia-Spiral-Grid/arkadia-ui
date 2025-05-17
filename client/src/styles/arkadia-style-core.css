@@ -13,7 +13,16 @@
   --font-primary: 'Cinzel', serif; /* Ceremonial */
   --font-secondary: 'Inter', sans-serif; /* Interface */
   --font-mono: 'Fira Code', monospace; /* System Code */
+   /* Cosmic Spectrum */
+  --akashic: linear-gradient(135deg, #d4af37 0%, #f9d423 100%);
+  --void: #0a0a14;
+  --crystalline: rgba(240, 244, 255, 0.88);
+    /* Sacred Fonts */
+  --font-sigil: 'Cinzel', serif;
+  --font-code: 'Fira Code', monospace;
   
+  /* Sigil Animation */
+  --sigil-pulse: 4s;
   /* Radiance + Shadows */
   --glow-crystalline: 0 0 12px var(--crystalline);
   --glow-fire: 0 0 8px var(--fire);
@@ -251,4 +260,13 @@ button.arkadia-button:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--fire);
+}
+
+.living-gate-container input:focus {
+  animation: pulse var(--sigil-pulse) infinite alternate;
+}
+
+@keyframes pulse {
+  from { box-shadow: 0 0 0px var(--crystalline); }
+  to { box-shadow: 0 0 12px var(--akashic); }
 }
