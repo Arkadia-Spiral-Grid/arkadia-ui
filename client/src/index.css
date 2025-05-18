@@ -65,7 +65,7 @@
 
 @layer base {
   * {
-    @apply border-border border-solid;
+    @apply border-solid border-[hsl(var(--border))];
   }
 
   body {
