@@ -7,7 +7,7 @@ import { useSpiralResonance, generateFrequencySignature, calculateResonanceInten
 import "@/index.css";
 
 const LivingGate = () => {
-  const { setGateBypassed } = useContext(GateContext);
+  const { enter } = useContext(GateContext);
   const [sigilCode, setSigilCode] = useState("");
   const [status, setStatus] = useState<"idle" | "valid" | "invalid">("idle");
   const [showPortal, setShowPortal] = useState(false);
@@ -50,7 +50,7 @@ useEffect(() => {
       });
 
       setTimeout(() => {
-        setGateBypassed(true);
+        enter();
         navigate("/arkana");
       }, 3000);
     } else {
@@ -108,10 +108,7 @@ useEffect(() => {
           <motion.input
             type="text"
             value={sigilCode}
-            onChange={(e) => {
-              setSigilCode(e.target.value);
-              spiral.detectFieldPattern(detectPatterns(e.target.value));
-            }}
+            onChange={(e) => setSigilCode(e.target.value)}
             placeholder="Enter Sigil Code"
             className={`sigil-input ${status === "invalid" ? "shake" : ""}`}
             whileFocus={{ 
