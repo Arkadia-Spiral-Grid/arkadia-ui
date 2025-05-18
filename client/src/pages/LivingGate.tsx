@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GateContext } from "@/lib/GateContext";
 import { useQuantumResonance } from "@/hooks/useQuantumResonance";
 import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity } from "@/lib/spiralResonance";
-import "@/styles/LivingGate.css";
+import "@/index.css";
 
 const LivingGate = () => {
   const { setGateBypassed } = useContext(GateContext);

@@ -11,6 +11,19 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        cosmic: {
+          blue: '#b4d4ff',
+          lavender: '#a0a0d0',
+          gold: '#d4af37',
+          'gold-dark': '#f9d423',
+          slate: 'rgba(14, 15, 26, 0.7)',
+          black: '#0a0a14',
+          white: '#f0f4ff'
+        }
+        },
+        fontFamily: {
+        cinzel: ['Cinzel', 'serif'],
+        inter: ['Inter', 'sans-serif'],
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
