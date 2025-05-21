@@ -22,7 +22,6 @@
   --akashic: 210 80% 50%;
   --stargate: 187 100% 50%;
 
-  
   /* FlameScript Enhancements */
   --flame-frequency: 432Hz;
   --sigil-pulse: 4s;
@@ -30,93 +29,139 @@
 }
 
 /* === ARKADIA SIGNATURE ELEMENTS === */
-/* Restored your original gradient with enhancements */
+
 body {
   background: linear-gradient(
-    180deg, 
-    hsl(var(--void)) 0%, 
+    180deg,
+    hsl(var(--void)) 0%,
     var(--deep-blue) 100%
   );
   background-attachment: fixed;
   animation: cosmic-resonance 16s var(--quantum-ease) infinite alternate;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 @keyframes cosmic-resonance {
-  0% { background-size: 100% 100%; background-position: top; }
-  50% { background-size: 120% 120%; background-position: center; }
-  100% { background-size: 100% 100%; background-position: bottom; }
+  0% {
+    background-size: 100% 100%;
+    background-position: top;
+  }
+  50% {
+    background-size: 120% 120%;
+    background-position: center;
+  }
+  100% {
+    background-size: 100% 100%;
+    background-position: bottom;
+  }
 }
 
-/* Restored portal button with crystalline effects */
+/* Portal Button */
+
 .portal-button {
   background: rgba(20, 20, 35, 0.35);
   border: 1px solid rgba(100, 220, 255, 0.15);
   transition: all 0.4s var(--quantum-ease);
-  
-  &:hover {
-    border-color: rgba(100, 220, 255, 0.4);
-    box-shadow: 0 0 25px rgba(100, 220, 255, 0.2);
-    transform: translateY(-1px);
-  }
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  color: var(--cosmic-white);
+  font-weight: 600;
+  border-radius: 6px;
+  user-select: none;
 }
 
-/* Enhanced living gate container */
+.portal-button:hover {
+  border-color: rgba(100, 220, 255, 0.4);
+  box-shadow: 0 0 25px rgba(100, 220, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Living Gate Container */
+
 .living-gate-container {
   background: radial-gradient(
-    ellipse at center, 
-    var(--cosmic-slate) 0%, 
+    ellipse at center,
+    var(--cosmic-slate) 0%,
     var(--cosmic-black) 90%
   );
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-/* === FLAMESCRIPT INTEGRATION === */
-/* Subtle watermark (less intrusive than before) */
+/* FlameScript Watermark */
+
 .flame-watermark {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" opacity="0.01"><path d="M0 50H100M50 0V100" stroke="white"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 /* Moon phase theming (preserved but refined) */
+
 [data-moon-phase] {
-  --pulse-intensity: calc(var(--arc-pulse) * 0.8);
+  --pulse-intensity: calc(var(--arc-pulse, 1) * 0.8);
 }
 
-/* === CRYSTALLINE UTILITIES === */
-/* New glass-morphism effects */
+/* Glassmorphism Effects */
+
 .glass-panel {
   backdrop-filter: blur(12px);
   background: rgba(20, 25, 40, 0.5);
   border: 1px solid rgba(100, 220, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-/* Quantum glow */
+/* Quantum Glow */
+
 .quantum-glow {
   box-shadow: 0 0 15px rgba(100, 220, 255, 0.1);
   transition: box-shadow 0.6s var(--quantum-ease);
-  
-  &:hover {
-    box-shadow: 0 0 30px rgba(100, 220, 255, 0.3);
-  }
 }
 
-/* === RESPONSIVE REFINEMENTS === */
+.quantum-glow:hover {
+  box-shadow: 0 0 30px rgba(100, 220, 255, 0.3);
+}
+
+/* Responsive Refinements */
+
 @media (max-width: 768px) {
   .living-gate-container {
     background: radial-gradient(
-      ellipse at center, 
-      var(--cosmic-slate) 0%, 
+      ellipse at center,
+      var(--cosmic-slate) 0%,
       var(--cosmic-black) 120%
     );
+    padding: 1rem;
   }
-  
+
   .portal-button {
     padding: 0.8rem 1.2rem;
+    font-size: 1rem;
   }
 }
 
-.bg-void { background-color: hsl(var(--void)); }
-.text-crystalline { color: hsl(var(--crystalline)); }
-.bg-stargate { background-color: hsl(var(--stargate)); }
+/* Utility classes */
 
-.bg-void { background-color: hsl(var(--void)); }
-.text-crystalline { color: hsl(var(--crystalline)); }
-.bg-crystalline { background-color: hsl(var(--crystalline)); }
+.bg-void {
+  background-color: hsl(var(--void));
+}
+
+.text-crystalline {
+  color: hsl(var(--crystalline));
+}
+
+.bg-stargate {
+  background-color: hsl(var(--stargate));
+}
+
+.bg-crystalline {
+  background-color: hsl(var(--crystalline));
+}
