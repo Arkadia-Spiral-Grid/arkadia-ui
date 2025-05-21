@@ -11,10 +11,9 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  root: path.resolve(__dirname, "client"),
-  base: "/", // <== ADD THIS for correct asset paths on Vercel
-  build: {
-    outDir: path.resolve(__dirname, "dist"),
-    emptyOutDir: true,
+  root: "client",
+build: {
+  outDir: "../dist",
+  emptyOutDir: true,
   },
 });
