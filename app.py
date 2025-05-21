@@ -30,5 +30,6 @@ def store_memory():
 def list_memory():
     return jsonify(vhix.memory.get_all_entries())
 
+# Remove this block or keep it guarded, as Vercel doesn't use this
 if __name__ == "__main__":
     app.run(debug=True)
