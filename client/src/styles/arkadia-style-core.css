@@ -270,34 +270,3 @@ button.arkadia-button:hover {
   from { box-shadow: 0 0 0px var(--crystalline); }
   to { box-shadow: 0 0 12px var(--akashic); }
 }
-
-/* === LIVING GATE TEXT RENDERING === */
-.living-gate-container {
-  --cosmic-text-primary: theme('colors.cosmic.blue');
-  --cosmic-text-secondary: theme('colors.cosmic.lavender');
-}
-
-.cosmic-title {
-  font-family: theme('fontFamily.cinzel');
-  color: var(--cosmic-text-primary) !important;
-  text-shadow: 0 0 8px rgba(180, 212, 255, 0.4);
-}
-
-.cosmic-subtext {
-  font-family: theme('fontFamily.inter');
-  color: var(--cosmic-text-secondary) !important;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-}
-
-/* === PORTAL CONTRAST ENHANCEMENT === */
-.glass-card {
-  background: rgba(14, 15, 26, 0.82) !important;
-  backdrop-filter: blur(12px);
-  border: 1px solid theme('colors.cosmic.gold/20');
-}
-
-/* === FORCE TEXT VISIBILITY === */
-.sigil-input::placeholder {
-  color: theme('colors.cosmic.lavender/60') !important;
-}

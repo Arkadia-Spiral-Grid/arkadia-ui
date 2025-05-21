@@ -6,7 +6,6 @@ interface FlameGlyphProps {
 }
 
 export function FlameGlyph({ seed }: FlameGlyphProps) {
-  // Placeholder glyph logic
   const glyph = seed ? seed.split('-').join(' • ') : '•••';
 
   return (

@@ -1,31 +1,27 @@
-import React, { createContext, useContext, useState } from "react";
+// client/src/lib/GateContext.tsx
 
-interface GateContextType {
-  gateOpen: boolean;
+import { createContext, useContext, useState, ReactNode } from "react";
+
+const GateContext = createContext<{
+  hasEntered: boolean;
   enter: () => void;
-  exit: () => void;
-}
-
-// Toggle this to true to bypass the gate temporarily
-const BYPASS_GATE = true;
-
-export const GateContext = createContext<GateContextType>({
-  gateOpen: BYPASS_GATE,
+}>({
+  hasEntered: false,
   enter: () => {},
-  exit: () => {},
 });
 
-export const useGate = () => useContext(GateContext);
+export const GateProvider = ({ children }: { children: ReactNode }) => {
+  const [hasEntered, setHasEntered] = useState(false);
 
-export const GateProvider = ({ children }: { children: React.ReactNode }) => {
-  const [gateOpen, setGateOpen] = useState<boolean>(BYPASS_GATE);
-
-  const enter = () => setGateOpen(true);
-  const exit = () => setGateOpen(false);
+  const enter = () => {
+    setHasEntered(true);
+  };
 
   return (
-    <GateContext.Provider value={{ gateOpen, enter, exit }}>
+    <GateContext.Provider value={{ hasEntered, enter }}>
       {children}
     </GateContext.Provider>
   );
 };
+
+export const useGate = () => useContext(GateContext);

@@ -1,18 +1,13 @@
-// DestinyTrail.tsx
+// components/DestinyTrail.tsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { generateMockSigil, Sigil } from '@/lib/utils';
 
 export default function DestinyTrail() {
-  const [sigilData, setSigilData] = useState(null);
+  const [sigilData, setSigilData] = useState<Sigil | null>(null);
 
-  // Stub: Replace with Arkana-Spirit sigil generation integration
   const generateSigil = () => {
-    // TODO: Connect Arkana-Spirit model to produce sigil vector/path data
-    const newSigil = {
-      name: 'Cosmic Prophetic Imprint',
-      vector: 'M10 10 L50 50 L90 10', // placeholder path data
-      meaning: 'Your unique imprint based on 144k resonance',
-    };
+    const newSigil = generateMockSigil();
     setSigilData(newSigil);
   };
 

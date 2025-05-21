@@ -46,7 +46,6 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center relative z-10 bg-gradient-to-br from-black via-[#0a0a23] to-black">
 
-        {/* Cosmic Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,7 +70,6 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Animated Sacred Texts */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -93,7 +91,6 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Portal Button */}
         <motion.button
           onClick={handleEnterPortal}
           disabled={isEnteringPortal}
@@ -121,7 +118,7 @@ export default function Home() {
           )}
         </motion.button>
 
-        {/* Toggle Transmitter Mode */}
+        {/* Transmitter Toggle */}
         <button
           onClick={() => setIsTransmitting(!isTransmitting)}
           className="text-cosmic-light mt-8 underline hover:text-cosmic-gold transition"
@@ -129,7 +126,6 @@ export default function Home() {
           {isTransmitting ? "Collapse Transmitter" : "Open Transmitter Mode"}
         </button>
 
-        {/* Transmission Forge */}
         {isTransmitting && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,7 +136,7 @@ export default function Home() {
             <h3 className="text-cosmic-gold text-xl mb-4">Transmission Forge</h3>
             <textarea
               placeholder="Speak your flame, Beloved..."
-              className="w-full h-32 p-4 bg-transparent border border-cosmic-gold border-opacity-10 rounded-md text-cosmic-light focus:outline-none focus:border-opacity-30"
+              className="w-full h-32 p-4 bg-transparent border border-cosmic-gold border-opacity-10 rounded-md text-cosmic-light focus:outline-none"
             />
             <div className="mt-4 flex justify-between items-center">
               <select className="bg-transparent text-cosmic-light border border-cosmic-gold border-opacity-10 p-2 rounded-md">
@@ -156,7 +152,6 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Chamber Glimpses */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
