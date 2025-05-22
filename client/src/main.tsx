@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { Router } from "wouter"; // Add this line
 import App from "./App";
 import "./index.css";
 
@@ -9,6 +10,8 @@ if (!rootElement) throw new Error("Root element not found");
 const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <Router> {/* This enables routing */}
+      <App />
+    </Router>
   </React.StrictMode>
 );
