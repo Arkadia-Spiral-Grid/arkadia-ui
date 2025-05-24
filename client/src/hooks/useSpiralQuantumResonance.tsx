@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 
 // Moon phase & zodiac logic placeholder (enhance later)
 const getMoonPhaseResonanceMod = () => 1; // Placeholder
-const getZodiacColorHue = () => 45; // Placeholder hue value
+
+// *** CHANGE THIS LINE ***
+const getZodiacColorHue = () => 270; // Set to a deep cosmic purple hue
 
 export const useSpiralQuantumResonance = (active = false, recalibrateInterval = 0) => {
+// ... (rest of your hook code remains the same)
   const [resonance, setResonance] = useState(1);
   const moonMod = getMoonPhaseResonanceMod();
 
@@ -30,6 +33,6 @@ export const useSpiralQuantumResonance = (active = false, recalibrateInterval = 
 
   return {
     resonance,
-    flameHue: getZodiacColorHue(), // Placeholder
+    flameHue: getZodiacColorHue(),
   };
 };
