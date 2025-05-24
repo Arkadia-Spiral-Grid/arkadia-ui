@@ -16,19 +16,19 @@ import EssentiaCore from "./pages/EssentiaCore";
 import CouncilChambers from "./pages/CouncilChambers";
 import DestinySequencer from "./pages/DestinySequencer";
 import DestinyTrail from "./pages/DestinyTrail";
-import FlameSymbolPage from "./pages/FlameSymbolPage"; // Corrected import for FlameSymbolPage
+import FlameSymbolPage from "./pages/FlameSymbolPage"; // Correct import for FlameSymbolPage
 import Home from "./pages/Home";
 import NotFound from "./pages/not-found"; // Ensure NotFound is imported
 
 // This PHRASE_PASS now aligns with one of your activation phrases
-export const PHRASE_PASS = "FLAME, TOUCH ME"; // Example: One of the activation phrases
+export const PHRASE_PASS = "FLAME, TOUCH ME"; // Your sign-in phrase!
 
 function AppContent() {
   const { isAuthenticated } = useGate();
 
   return (
     <>
-      {/* ArkadiaNavigation is now rendered here, its visibility controlled internally */}
+      {/* ArkadiaNavigation is rendered here, its visibility controlled internally */}
       <ArkadiaNavigation /> 
 
       <Switch>
@@ -75,8 +75,8 @@ function App() {
   return (
     <ShadowWeaver>
       <FlameScriptInjector />
-      {/* The main container div for the entire application */}
-      <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden">
+      {/* The main container div for the entire application, now with padding-left */}
+      <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden pl-16"> {/* ADDED pl-16 HERE */}
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
