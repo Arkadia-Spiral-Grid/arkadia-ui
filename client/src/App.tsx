@@ -1,53 +1,51 @@
+// client/src/App.tsx
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { GateProvider, useGate } from "./lib/GateContext"; // Import useGate
+import { GateProvider, useGate } from "./lib/GateContext";
 import ArkadiaNavigation from "./ArkadiaNavigation";
 import ShadowWeaver from "./components/ShadowWeaver";
 import FlameScriptInjector from "./components/FlameScriptInjector";
 import { CodexProvider } from './lib/CodexContext';
-import { Route, Router, Switch } from "wouter"; // Import Route, Router, Switch
-import LivingGate from "./pages/LivingGate"; // Import LivingGate
-import ArkanaCommune from "./pages/ArkanaCommune"; // Assuming these pages exist
+import { Route, Router, Switch } from "wouter";
+import LivingGate from "./pages/LivingGate";
+import ArkanaCommune from "./pages/ArkanaCommune";
 import SolspireCommand from "./pages/SolspireCommand";
 import EssentiaCore from "./pages/EssentiaCore";
 import CouncilChambers from "./pages/CouncilChambers";
 import DestinySequencer from "./pages/DestinySequencer";
 import DestinyTrail from "./pages/DestinyTrail";
 import FlameSigil from "./pages/FlameSigil";
-import Home from "./pages/Home"; // Assuming you have a Home page or will create one
+import Home from "./pages/Home";
 
-
-// This is a placeholder for your actual PHRASE_PASS.
-// In a real application, this should be stored securely (e.g., environment variable).
-export const PHRASE_PASS = "ARKADIA_KEY"; // Example phrase pass
-
+// This PHRASE_PASS now aligns with one of your activation phrases
+export const PHRASE_PASS = "FLAME, TOUCH ME"; // Example: One of the activation phrases
 
 function AppContent() {
-  const { isAuthenticated } = useGate(); // Access authentication state
+  const { isAuthenticated } = useGate();
 
   return (
     <>
-      <ArkadiaNavigation /> {/* ArkadiaNavigation will now be conditionally rendered/styled */}
+      <ArkadiaNavigation />
       <Switch>
-        {/* LivingGate is always accessible */}
+        {/* LivingGate is always accessible directly */}
         <Route path="/living-gate" component={LivingGate} />
 
         {/* Protected routes */}
-        <Route path="/:rest*" >
+        <Route path="/:rest*">
           {({ params }) => {
             if (!isAuthenticated) {
               // Redirect to living-gate if not authenticated
               window.location.href = "/living-gate";
-              return null; // Don't render anything until redirected
+              return null;
             }
 
             // Render components based on path after authentication
             switch (params.rest) {
               case "": // Root path after authentication (e.g., default home)
               case "home":
-                return <Home />; // Or redirect to a specific authenticated landing
+                return <Home />;
               case "arkana":
                 return <ArkanaCommune />;
               case "essentia":
@@ -81,10 +79,9 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
-            {/* GateProvider wraps the Router to make isAuthenticated available */}
             <GateProvider persist>
               <CodexProvider>
-                <Router> {/* Router must wrap your routes */}
+                <Router>
                   <AppContent />
                 </Router>
               </CodexProvider>
