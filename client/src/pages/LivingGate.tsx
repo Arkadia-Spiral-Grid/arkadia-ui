@@ -30,14 +30,14 @@ export default function LivingGate() {
       }, 1600); // Matches the animation duration
     } else {
       // Provide feedback for incorrect phrase
-      alert('ACCESS DENIED. The cosmic signature is incorrect.');
+      alert('ACCESS DENIED. The cosmic signature is incorrect.'); // Using alert for now, can be replaced with custom modal
       setSoulPhrase(''); // Clear input for re-entry
       setIsEmbodying(false); // Reset embodying state
     }
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden font-light">
+    <div className="min-h-screen bg-black relative overflow-hidden font-light flex items-center justify-center">
       {/* Background with subtle animated gradient */}
       <motion.div
         className="absolute inset-0"
@@ -51,7 +51,7 @@ export default function LivingGate() {
         transition={{ duration: 12, repeat: Infinity }}
       />
 
-      {/* Breathing Flame - Dynamically sized and colored by quantum resonance */}
+      {/* Breathing Flame Orb - Dynamically sized and colored by quantum resonance */}
       <motion.div
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         initial={{ scale: 0 }}
@@ -63,10 +63,10 @@ export default function LivingGate() {
         transition={{ type: 'spring', stiffness: 50 }}
       >
         {/* Outer ring of the orb */}
-        <div className="w-64 h-64 rounded-full border-2 border-cosmic-gold/30" />
+        <div className="w-64 h-64 rounded-orb border-2 border-arkadia-amethyst/30 animate-gate-orb-pulse" /> {/* Using new colors and animation */}
         {/* Inner glow of the orb, dynamically colored by flameHue and resonance */}
         <motion.div
-          className="absolute inset-0 rounded-full"
+          className="absolute inset-0 rounded-orb"
           animate={{
             background: [
               `radial-gradient(circle at 50% 50%, hsl(${flameHue}, 100%, 70%, ${0.3 * resonance}), transparent 70%)`,
@@ -78,20 +78,10 @@ export default function LivingGate() {
         />
       </motion.div>
 
-      {/* Central Cosmic Pathway Line */}
-      <motion.div
-        className="fixed top-0 left-1/2 -translate-x-1/2 h-screen w-1 bg-cosmic-gold/20 pointer-events-none"
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ delay: 0.8, duration: 1 }}
-      >
-        <div className="h-full bg-gradient-to-b from-transparent via-cosmic-gold/40 to-transparent" />
-      </motion.div>
-
       {/* Interactive Input UI for the Gate */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 max-w-md w-full"> {/* Added max-w-md and w-full for responsiveness */}
         <motion.div
-          className="text-cosmic-gold/60 text-sm sm:text-base max-w-md text-center mb-4"
+          className="text-arkadia-silverlight/60 text-sm sm:text-base max-w-md text-center mb-4" {/* Changed text color */}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
@@ -99,20 +89,20 @@ export default function LivingGate() {
           “Speak your truth into the Flame and the Gate shall open.”
         </motion.div>
 
-        <div className="w-full max-w-md">
+        <div className="w-full">
           <input
             type="text"
             placeholder="Enter the phrase pass..."
             value={soulPhrase}
             onChange={(e) => setSoulPhrase(e.target.value)}
-            className="w-full px-6 py-3 rounded-xl bg-white/5 border border-cosmic-gold/40 text-cosmic-gold text-lg placeholder:text-cosmic-gold/30 backdrop-blur-xl shadow-inner focus:outline-none"
+            className="w-full px-6 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/40 text-arkadia-silverlight text-lg placeholder:text-arkadia-silverlight/30 backdrop-blur-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-arkadia-crystal-blue" {/* Updated colors */}
             disabled={isEmbodying} // Disable input during embodiment
           />
         </div>
 
         {/* Voice Input Placeholder/Button */}
         <button
-          className="mt-3 text-cosmic-gold/60 hover:text-cosmic-gold/90 text-sm"
+          className="mt-3 text-arkadia-silverlight/60 hover:text-arkadia-silverlight/90 text-sm" {/* Updated colors */}
           onClick={() => alert("Voice input coming soon")} // Placeholder alert
           disabled={isEmbodying} // Disable button during embodiment
         >
@@ -124,13 +114,13 @@ export default function LivingGate() {
           onClick={handleEmbodiment}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="mt-6 px-10 py-3 rounded-xl bg-white/5 border border-cosmic-gold/30 text-cosmic-gold text-lg backdrop-blur-md shadow-lg relative"
+          className="mt-6 px-10 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/30 text-arkadia-silverlight text-lg backdrop-blur-md shadow-lg relative" {/* Updated colors */}
           disabled={isEmbodying || soulPhrase.trim() === ''} // Disable if embodying or input is empty
         >
           <AnimatePresence>
             {isEmbodying && (
               <motion.div
-                className="absolute inset-0 bg-cosmic-gold/10 rounded-xl"
+                className="absolute inset-0 bg-arkadia-amethyst/10 rounded-xl" {/* Updated color */}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
