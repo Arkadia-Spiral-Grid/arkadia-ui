@@ -1,91 +1,94 @@
+// client/src/components/Header.tsx
+
 import { Link } from "wouter";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/navigation-menu"; // Import Radix UI Navigation components
 
 interface HeaderProps {
   transparent?: boolean;
 }
 
+// Define the navigation items for the TOP header (can be different from left nav)
+const HEADER_NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/arkana", label: "Arkana Commune" },
+  { href: "/essentia", label: "Essentia Core" },
+  { href: "/solspire", label: "Solspire Command" },
+  { href: "/council", label: "Council Chambers" },
+  { href: "/destiny", label: "Destiny Sequencer" },
+  { href: "/flame-symbol", label: "Flame Sigil" },
+  { href: "/destiny-trail", label: "Destiny Trail" },
+];
+
 export default function Header({ transparent = false }: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className={`py-4 px-6 ${transparent ? 'absolute' : ''} top-0 left-0 right-0 z-50`}>
+    <header className={`py-4 px-6 ${transparent ? 'absolute' : 'relative'} top-0 left-0 right-0 z-50`}>
       <div className="container mx-auto flex justify-between items-center">
+        {/* ARKADIA Logo/Home Link */}
         <Link href="/">
           <motion.div 
-            className="text-cosmic-gold font-mystic text-2xl glow cursor-pointer"
+            className="text-cosmic-gold font-arkadia text-3xl md:text-4xl glow cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
             ARKADIA
           </motion.div>
         </Link>
 
-        <nav className="hidden md:flex space-x-6">
-          <Link href="/">
-            <motion.span 
-              className="text-cosmic-gold hover:text-cosmic-light transition-colors cursor-pointer"
-              whileHover={{ y: -2 }}
-            >
-              Home
-            </motion.span>
-          </Link>
-          <Link href="/essentia">
-            <motion.span 
-              className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
-              whileHover={{ y: -2 }}
-            >
-              Essentia
-            </motion.span>
-          </Link>
-          <Link href="/arkana">
-            <motion.span 
-              className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
-              whileHover={{ y: -2 }}
-            >
-              Commune
-            </motion.span>
-          </Link>
-          <Link href="/solspire">
-            <motion.span 
-              className="text-cosmic-light hover:text-cosmic-gold transition-colors cursor-pointer"
-              whileHover={{ y: -2 }}
-            >
-              Solspire
-            </motion.span>
-          </Link>
-        </nav>
+        {/* Desktop Navigation (Radix UI) */}
+        <NavigationMenu className="hidden md:flex">
+          <NavigationMenuList>
+            {HEADER_NAV_ITEMS.map((item) => (
+              <NavigationMenuItem key={item.href}>
+                <Link href={item.href} passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.label}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
 
+        {/* Mobile Menu Button */}
         <button 
           className="md:hidden text-cosmic-light"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle mobile menu"
         >
-          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
+      {/* Mobile Menu Content (Framed Motion for animation) */}
+      {isMobileMenuOpen && (
         <motion.div 
           className="absolute top-16 left-0 right-0 bg-cosmic-black bg-opacity-90 border-t border-cosmic-gold border-opacity-20 py-4 md:hidden"
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
         >
           <div className="container mx-auto px-6 flex flex-col space-y-4">
-            <Link href="/">
-              <span className="text-cosmic-gold py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Home</span>
-            </Link>
-            <Link href="/essentia">
-              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Essentia</span>
-            </Link>
-            <Link href="/arkana">
-              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Commune</span>
-            </Link>
-            <Link href="/solspire">
-              <span className="text-cosmic-light py-2 block cursor-pointer" onClick={() => setIsMenuOpen(false)}>Solspire</span>
-            </Link>
+            {HEADER_NAV_ITEMS.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <span 
+                  className="text-cosmic-gold py-2 block cursor-pointer text-lg hover:text-cosmic-gold/80 transition-colors" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            ))}
           </div>
         </motion.div>
       )}
