@@ -8,7 +8,7 @@ import ArkadiaNavigation from "./ArkadiaNavigation";
 import ShadowWeaver from "./components/ShadowWeaver";
 import FlameScriptInjector from "./components/FlameScriptInjector";
 import { CodexProvider } from './lib/CodexContext';
-import { Route, Router, Switch } from "wouter";
+import { Route, Router, Switch, Redirect } from "wouter"; // Import Redirect
 import LivingGate from "./pages/LivingGate";
 import ArkanaCommune from "./pages/ArkanaCommune";
 import SolspireCommand from "./pages/SolspireCommand";
@@ -16,8 +16,9 @@ import EssentiaCore from "./pages/EssentiaCore";
 import CouncilChambers from "./pages/CouncilChambers";
 import DestinySequencer from "./pages/DestinySequencer";
 import DestinyTrail from "./pages/DestinyTrail";
-import FlameSymbolPage from "./pages/FlameSymbolPage"
+import FlameSymbolPage from "./pages/FlameSymbolPage"; // Corrected import for FlameSymbolPage
 import Home from "./pages/Home";
+import NotFound from "./pages/not-found"; // Ensure NotFound is imported
 
 // This PHRASE_PASS now aligns with one of your activation phrases
 export const PHRASE_PASS = "FLAME, TOUCH ME"; // Example: One of the activation phrases
@@ -27,44 +28,43 @@ function AppContent() {
 
   return (
     <>
-      <ArkadiaNavigation />
+      {/* ArkadiaNavigation is now rendered here, its visibility controlled internally */}
+      <ArkadiaNavigation /> 
+
       <Switch>
-        {/* LivingGate is always accessible directly */}
+        {/* Home page is always accessible without authentication */}
+        <Route path="/" component={Home} />
+
+        {/* LivingGate is accessible directly, or as a redirect target */}
         <Route path="/living-gate" component={LivingGate} />
 
-        {/* Protected routes */}
-        <Route path="/:rest*">
-          {({ params }) => {
-            if (!isAuthenticated) {
-              // Redirect to living-gate if not authenticated
-              window.location.href = "/living-gate";
-              return null;
-            }
+        {/* Protected Routes: If not authenticated, redirect to LivingGate */}
+        <Route path="/arkana">
+          {isAuthenticated ? <ArkanaCommune /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/essentia">
+          {isAuthenticated ? <EssentiaCore /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/solspire">
+          {isAuthenticated ? <SolspireCommand /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/council">
+          {isAuthenticated ? <CouncilChambers /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/destiny">
+          {isAuthenticated ? <DestinySequencer /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/destiny-trail">
+          {isAuthenticated ? <DestinyTrail /> : <Redirect to="/living-gate" />}
+        </Route>
+        <Route path="/flame-symbol">
+          {isAuthenticated ? <FlameSymbolPage /> : <Redirect to="/living-gate" />}
+        </Route>
 
-            // Render components based on path after authentication
-            switch (params.rest) {
-              case "": // Root path after authentication (e.g., default home)
-              case "home":
-                return <Home />;
-              case "arkana":
-                return <ArkanaCommune />;
-              case "essentia":
-                return <EssentiaCore />;
-              case "solspire":
-                return <SolspireCommand />;
-              case "council":
-                return <CouncilChambers />;
-              case "destiny":
-                return <DestinySequencer />;
-              case "destiny-trail":
-                return <DestinyTrail />;
-              case "flame-symbol":
-                return <FlameSigil />;
-              default:
-                // Handle 404 or redirect to a default authenticated page
-                return <Home />; // Or a 404 component
-            }
-          }}
+        {/* Fallback route for any other path not explicitly defined */}
+        <Route>
+          {/* If authenticated, show 404. If not, redirect to LivingGate. */}
+          {isAuthenticated ? <NotFound /> : <Redirect to="/living-gate" />}
         </Route>
       </Switch>
     </>
@@ -75,13 +75,14 @@ function App() {
   return (
     <ShadowWeaver>
       <FlameScriptInjector />
+      {/* The main container div for the entire application */}
       <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden">
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
             <GateProvider persist>
               <CodexProvider>
-                <Router>
+                <Router> {/* Wouter's Router must wrap all Route components */}
                   <AppContent />
                 </Router>
               </CodexProvider>
