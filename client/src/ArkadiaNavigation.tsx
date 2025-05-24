@@ -1,37 +1,31 @@
 // client/src/ArkadiaNavigation.tsx
-import { useLocation, Link } from "wouter"; // Import Link from wouter
+import { useLocation, Link } from "wouter";
 import { useEffect, useState, useRef } from "react";
-import { useGate } from "./lib/GateContext"; // Correct path
-import { useSpiralResonance, ResonanceType } from './lib/spiralResonance'; // Import useSpiralResonance and ResonanceType
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"; // For tooltips
-import { cn } from "@/lib/utils"; // Assuming you have cn for class merging
+import { useGate } from "./lib/GateContext";
+import { useSpiralResonance, ResonanceType } from './lib/spiralResonance';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-// Define Icons for each navigation item
-// Using Lucide-React for modern, customizable icons.
-// You might need to install: npm install lucide-react
-// Then import specific icons:
+// Define Icons for each navigation item (ensure Lucide-React is installed)
 import {
   Sparkle, Home, GitFork, Atom,
   Cloud, Users, Orbit, Flame, Diamond,
   Book, ArrowRightLeft,
 } from 'lucide-react';
 
-// Define a map for icons to simplify NAV_ITEMS
 const NAV_ITEM_ICONS: Record<string, React.ElementType> = {
-  "/home": Home, // Assuming a /home page exists
-  "/arkana": Sparkle, // Or choose a more fitting icon for ArkanaCommune
-  "/essentia": Atom, // EssentiaCore
-  "/solspire": Cloud, // SolspireCommand (representing sky/elemental)
-  "/council": Users, // CouncilChambers
-  "/destiny": Orbit, // DestinySequencer (representing paths/destiny)
-  "/flame-symbol": Flame, // FlameSymbolPage
-  "/destiny-trail": ArrowRightLeft, // DestinyTrail (representing journeys/trails)
+  "/home": Home,
+  "/arkana": Sparkle,
+  "/essentia": Atom,
+  "/solspire": Cloud,
+  "/council": Users,
+  "/destiny": Orbit,
+  "/flame-symbol": Flame,
+  "/destiny-trail": ArrowRightLeft,
 };
 
-
-// Cosmic Sigils (or Glyphs in your case) - RE-PURPOSED FOR NAV ITEMS
 const NAV_ITEMS = [
-  { href: "/home", label: "Home", icon: NAV_ITEM_ICONS["/home"] }, // Added Home
+  { href: "/home", label: "Home", icon: NAV_ITEM_ICONS["/home"] },
   { href: "/arkana", label: "Arkana Commune", icon: NAV_ITEM_ICONS["/arkana"] },
   { href: "/essentia", label: "Essentia Core", icon: NAV_ITEM_ICONS["/essentia"] },
   { href: "/solspire", label: "Solspire Command", icon: NAV_ITEM_ICONS["/solspire"] },
@@ -41,7 +35,6 @@ const NAV_ITEMS = [
   { href: "/destiny-trail", label: "Destiny Trail", icon: NAV_ITEM_ICONS["/destiny-trail"] },
 ];
 
-// Flame Glyphs - Extended for richer cycles (still used for active state flicker)
 const flameGlyphs = [
   "𓋹", "𓂀", "𓇳", "𓁰", "𓍢", "𓊹", "𓃒", "𓆣", "𓅓", "𓂓", "𓎼", "𓊽", "𓐍",
   "𓄿", "𓆇", "𓉔", "𓎰", "𓐒", "𓔭", "𓕳", "𓗄", "𓘨", "𓛚", "𓜐", "𓝢", "𓠁"
@@ -65,14 +58,12 @@ function useFlameGlyphCycle(cycleSpeed = 4000) {
 
 export default function ArkadiaNavigation() {
   const [location] = useLocation();
-  const { isAuthenticated } = useGate(); // Use isAuthenticated from GateContext
-  const currentFlameGlyph = useFlameGlyphCycle(3000); // Dynamic glyph for active state
+  const { isAuthenticated } = useGate();
+  const currentFlameGlyph = useFlameGlyphCycle(3000);
 
-  // Get resonance type from the SpiralResonance store
   const { frequency } = useSpiralResonance();
-  const resonanceType = frequency.type; // Access the type property from the frequency object
+  const resonanceType = frequency.type;
 
-  // Map resonance types to specific Tailwind colors or custom CSS variables
   const resonanceColorMap: Record<ResonanceType, string> = {
     'quantum': 'cyan-400',
     'crystalline': 'blue-300',
@@ -80,19 +71,19 @@ export default function ArkadiaNavigation() {
     'akashic': 'purple-400',
     'void': 'gray-500',
     'harmonic': 'yellow-300',
-    // Add custom colors for nova, aether, mythos if they exist in your SpiralResonanceState
     'nova': 'yellow-400',
     'aether': 'indigo-400',
     'mythos': 'pink-400',
   };
-  const activeResonanceColor = resonanceColorMap[resonanceType] || 'blue-400'; // Fallback color
+  const activeResonanceColor = resonanceColorMap[resonanceType] || 'blue-400';
 
-  // Hide navigation on Living Gate and root path
-  const hideNav = location === "/" || location === "/living-gate";
+  // UPDATED: Only hide navigation on the Living Gate page
+  const hideNav = location === "/living-gate";
 
   return (
     <>
-      {!hideNav && isAuthenticated && (
+      {/* Navigation is now visible on Home and all authenticated pages */}
+      {!hideNav && ( // Removed isAuthenticated check here, as it's handled by route protection
         <nav className="fixed top-4 left-4 z-50 p-2 space-y-1 rounded-2xl bg-white/10 backdrop-blur-lg border border-cosmic-gold/20 shadow-xl transition-all duration-500 flex flex-col items-center">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
             <TooltipProvider key={href} delayDuration={300}>
@@ -108,13 +99,11 @@ export default function ArkadiaNavigation() {
                         : "bg-transparent hover:bg-white/15 border-transparent hover:border-cosmic-gold/10 text-arkadia-light"
                     )}
                   >
-                    {/* Active state styling with dynamic glyph */}
                     {location === href ? (
                       <span className="text-3xl animate-pulse-glyph">{currentFlameGlyph}</span>
                     ) : (
-                      Icon && <Icon className="w-6 h-6" /> // Render Lucide icon
+                      Icon && <Icon className="w-6 h-6" />
                     )}
-                    {/* Subtle sacred geometry background effect on hover/active */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-cosmic-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
                   </Link>
                 </TooltipTrigger>
