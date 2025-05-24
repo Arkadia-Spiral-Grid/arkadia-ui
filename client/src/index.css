@@ -1,133 +1,106 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+/* client/src/styles/index.css */
+
+/* Import fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&family=Orbitron:wght@500;700&display=swap');
+
+/* Import your arkadia-style-core if it contains other necessary global styles */
 @import './styles/arkadia-style-core.css'; /* Keep this if it exists and contains other styles */
 
+/* Tailwind CSS directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* === COSMIC CORE VARIABLES === */
 :root {
-  /* Original Color Scheme */
-  --cosmic-black: #0a0a14;
-  --cosmic-blue: #5aa9e6;
-  --cosmic-gold: #d4af37;
-  --cosmic-white: #f0f4ff;
-  --cosmic-slate: rgba(14, 15, 26, 0.7);
-  --deep-blue: #151830;
-  --cosmic-lavender: #e6e6fa;
+  /* Arkadia's True Color Palette (aligned with Codex) */
+  --cosmic-black: #080B1A; /* Deepest background black */
+  --cosmic-blue: #1A0B2E; /* Dark base blue, for subtle gradients */
+  --cosmic-gold: #D4AF37; /* Primary accent gold */
+  --cosmic-white: #E0E0E0; /* General light text color */
+  --cosmic-slate: rgba(14, 15, 26, 0.7); /* Semi-transparent dark panels */
+  --deep-blue: #0A0A40; /* Darker blue for contrasts */
+  --cosmic-lavender: #5A407D; /* Soft purple text/accents */
 
-  /* Enhanced Cosmic Variables */
-  --void: 240 10% 4%;
-  --crystalline: 220 100% 99%;
-  --akashic: 210 80% 50%;
-  --stargate: 187 100% 50%;
-
-  /* Arkadia Specific Text Colors */
+  /* Arkadia Specific Text Colors (using the new palette) */
   --arkadia-light: var(--cosmic-white); /* General light text color */
   --arkadia-dark: var(--cosmic-black); /* General dark text color */
 
-  /* FlameScript Enhancements */
-  --flame-frequency: 432Hz;
-  --sigil-pulse: 4s;
-  --quantum-ease: cubic-bezier(0.77, 0, 0.175, 1); /* Defined here for CSS usage */
+  /* Quantum Resonance & FlameScript Enhancements */
+  --flame-frequency: 432Hz; /* From FlameScriptInjector */
+  --sigil-pulse: 4s; /* From FlameScriptInjector */
+  --quantum-ease: cubic-bezier(0.77, 0, 0.175, 1); /* Custom easing function */
+
+  /* Shadcn/UI custom properties (ensure these are correctly defined from your shadcn setup) */
+  --background: 220 10% 3%; /* Matches --void for dark background */
+  --foreground: 210 20% 98%;
+  --card: 220 10% 8%; /* Slightly lighter than background */
+  --card-foreground: 210 20% 98%;
+  --popover: 220 10% 8%;
+  --popover-foreground: 210 20% 98%;
+  --primary: 200 90% 70%; /* Example: Matches --crystalline */
+  --primary-foreground: 220 10% 3%;
+  --secondary: 260 70% 30%; /* Example: Matches --stargate */
+  --secondary-foreground: 210 20% 98%;
+  --muted: 220 10% 15%;
+  --muted-foreground: 215 14.3% 56.4%;
+  --accent: 280 80% 60%; /* Example: Matches --akashic */
+  --accent-foreground: 210 20% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 20% 98%;
+  --border: 220 10% 20%;
+  --input: 220 10% 20%;
+  --ring: 200 90% 70%;
+
+  --radius: 0.5rem;
+
+  /* Chart colors (example, adjust as needed for theme) */
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 275 62% 43%;
+
+  /* Sidebar colors */
+  --sidebar-background: 220 10% 8%;
+  --sidebar-foreground: 210 20% 98%;
+  --sidebar-primary: 200 90% 70%;
+  --sidebar-primary-foreground: 220 10% 3%;
+  --sidebar-accent: 280 80% 60%;
+  --sidebar-accent-foreground: 210 20% 98%;
+  --sidebar-border: 220 10% 20%;
+  --sidebar-ring: 200 90% 70%;
 }
 
-/* === ARKADIA SIGNATURE ELEMENTS === */
-
-/* Removed body background here as it's now in App.tsx for better control */
+/* Base body styles, ensuring font consistency */
 body {
   margin: 0;
-  /* font-family: 'Inter', sans-serif; - This will now be handled by Tailwind's font-inter or font-arkadia */
+  font-family: 'Inter', sans-serif; /* Default font for the body */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Removed @keyframes cosmic-resonance here as it's now in tailwind.config.ts */
-
-/* Portal Button */
-.portal-button {
-  background: rgba(20, 20, 35, 0.35);
-  border: 1px solid rgba(100, 220, 255, 0.15);
-  transition: all 0.4s var(--quantum-ease);
-  cursor: pointer;
-  padding: 0.75rem 1.5rem;
-  color: var(--cosmic-white);
-  font-weight: 600;
-  border-radius: 6px;
-  user-select: none;
-}
-
-.portal-button:hover {
-  border-color: rgba(100, 220, 255, 0.4);
-  box-shadow: 0 0 25px rgba(100, 220, 255, 0.2);
-  transform: translateY(-1px);
-}
-
-/* Living Gate Container */
-.living-gate-container {
-  background: radial-gradient(
-    ellipse at center,
-    var(--cosmic-slate) 0%,
-    var(--cosmic-black) 90%
-  );
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-/* FlameScript Watermark */
-.flame-watermark {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" opacity="0.01"><path d="M0 50H100M50 0V100" stroke="white"/></svg>');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-/* Moon phase theming (preserved but refined) */
-[data-moon-phase] {
-  --pulse-intensity: calc(var(--arc-pulse, 1) * 0.8);
-}
-
-/* Glassmorphism Effects */
-.glass-panel {
-  backdrop-filter: blur(12px);
-  background: rgba(20, 25, 40, 0.5);
-  border: 1px solid rgba(100, 220, 255, 0.1);
-  border-radius: 12px;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-/* Quantum Glow */
-.quantum-glow {
-  box-shadow: 0 0 15px rgba(100, 220, 255, 0.1);
-  transition: box-shadow 0.6s var(--quantum-ease);
-}
-
-.quantum-glow:hover {
-  box-shadow: 0 0 30px rgba(100, 220, 255, 0.3);
-}
-
-/* Responsive Refinements */
-@media (max-width: 768px) {
-  .living-gate-container {
-    background: radial-gradient(
-      ellipse at center,
-      var(--cosmic-slate) 0%,
-      var(--cosmic-black) 120%
-    );
-    padding: 1rem;
+/* Animation for the active navigation glyph */
+@keyframes pulse-glyph {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
   }
-
-  .portal-button {
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
   }
 }
 
-/* Utility classes - these can be removed if Tailwind handles them */
-/* .bg-void { background-color: hsl(var(--void)); } */
-/* .text-crystalline { color: hsl(var(--crystalline)); } */
-/* .bg-stargate { background-color: hsl(var(--stargate)); } */
-/* .bg-crystalline { background-color: hsl(var(--crystalline)); } */
+.animate-pulse-glyph {
+  animation: pulse-glyph 1.5s ease-in-out infinite;
+}
+
+/* Specific styles for the Living Gate's custom elements (if any are still needed, otherwise remove) */
+/* The previous LivingGate.css content has been moved into LivingGate.tsx as Tailwind classes */
+/* If you have any custom classes that cannot be expressed in Tailwind, define them here */
+
+/* Example: If you need a specific custom glow that Tailwind doesn't easily provide */
+/* .custom-glow-effect {
+  filter: drop-shadow(0 0 10px var(--cosmic-gold)) drop-shadow(0 0 20px var(--arkadia-amethyst));
+} */
