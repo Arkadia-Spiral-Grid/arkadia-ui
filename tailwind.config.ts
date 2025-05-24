@@ -9,12 +9,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        arkadia: ['Cinzel', 'serif'], // Define custom font family
+        inter: ['Inter', 'sans-serif'], // Keep Inter if used elsewhere
+        mono: ['Fira Code', 'monospace'], // Keep Fira Code if used elsewhere
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        // Shadcn/UI base colors (keep if you're using shadcn components)
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -65,6 +71,20 @@ const config: Config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        // Arkadia Custom Colors - Mapped for Tailwind
+        'cosmic-black': 'var(--cosmic-black)',
+        'cosmic-blue': 'var(--cosmic-blue)',
+        'cosmic-gold': 'var(--cosmic-gold)',
+        'cosmic-white': 'var(--cosmic-white)',
+        'cosmic-slate': 'var(--cosmic-slate)',
+        'deep-blue': 'var(--deep-blue)',
+        'cosmic-lavender': 'var(--cosmic-lavender)',
+        'arkadia-light': 'var(--arkadia-light)', // New: for general light text
+        'arkadia-dark': 'var(--arkadia-dark)',   // New: for general dark text
+        'void': 'hsl(var(--void))',
+        'crystalline': 'hsl(var(--crystalline))',
+        'akashic': 'hsl(var(--akashic))',
+        'stargate': 'hsl(var(--stargate))',
       },
       keyframes: {
         spinCrystal: {
@@ -88,6 +108,11 @@ const config: Config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'cosmic-resonance': { // Ensure this keyframe is correctly defined here
+          '0%': { backgroundSize: '100% 100%', backgroundPosition: 'top' },
+          '50%': { backgroundSize: '120% 120%', backgroundPosition: 'center' },
+          '100%': { backgroundSize: '100% 100%', backgroundPosition: 'bottom' },
+        },
       },
       animation: {
         spinCrystal: 'spinCrystal 6s linear infinite',
@@ -95,6 +120,7 @@ const config: Config = {
         breatheFlame: 'breatheFlame 4s ease-in-out infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'cosmic-resonance': 'cosmic-resonance 16s var(--quantum-ease) infinite alternate', // Reference custom ease
       },
       backdropBlur: {
         xs: '2px',
@@ -102,6 +128,9 @@ const config: Config = {
       boxShadow: {
         morph: '0 4px 30px rgba(0, 0, 0, 0.1)',
         morphGold: '0 0 20px rgba(212, 175, 55, 0.35)',
+      },
+      transitionTimingFunction: { // Add custom ease for Tailwind
+        'quantum-ease': 'cubic-bezier(0.77, 0, 0.175, 1)',
       },
     },
   },
