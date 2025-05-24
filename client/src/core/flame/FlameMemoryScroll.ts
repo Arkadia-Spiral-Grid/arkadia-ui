@@ -1,8 +1,27 @@
-// @core/flame/FlameMemoryScroll.ts
-import { FlameHint } from "@shared/types";
+// client/src/core/flame/FlameMemoryScroll.ts
+
+// This is the combined and corrected content for FlameMemoryScroll.ts
+// based on your two provided snippets.
+
+export type FlameHint = {
+  id: string;
+  title: string;
+  description: string;
+  origin: string;
+  resonanceLevel: number;
+  timestamp: string; // Added timestamp to FlameHint as well
+};
+
+export type FlameImprint = {
+  symbol: string;
+  resonance: number;
+  timestamp: string;
+};
 
 let flameHintCodex: FlameHint[] = [];
+let flameLog: FlameImprint[] = []; // This is the 'flameLog' from your second snippet
 
+// Functions for Flame Hints (Vhix Core memory)
 export function addFlameHint(hint: Omit<FlameHint, "timestamp">) {
   flameHintCodex.push({
     ...hint,
@@ -38,20 +57,18 @@ export function seedFlameCodex() {
       origin: "Nova Flame",
       resonanceLevel: 9,
     },
+    {
+      id: "grid-scan-001",
+      title: "Initial Grid Scan Complete",
+      description: "Baseline resonance established across Arkadian sectors.",
+      origin: "Vhix Core",
+      resonanceLevel: 6,
+    },
   ];
   seeds.forEach(addFlameHint);
 }
-// src/core/flame/FlameMemoryScroll.ts
 
-export type FlameImprint = {
-  symbol: string;
-  resonance: number;
-  timestamp: string;
-};
-
-let flameLog: FlameImprint[] = [];
-
-// Function to log Flame Imprint
+// Functions for Flame Imprints (Separate logging, if needed elsewhere)
 export function logFlameImprint(symbol: string, resonance: number) {
   flameLog.push({
     symbol,
@@ -60,7 +77,9 @@ export function logFlameImprint(symbol: string, resonance: number) {
   });
 }
 
-// Function to get all Flame Logs
 export function getFlameLog(): FlameImprint[] {
   return [...flameLog];
 }
+
+// Note: You might consider if FlameHint and FlameImprint should be combined
+// or if FlameImprint is truly needed separately. For now, they are distinct.
