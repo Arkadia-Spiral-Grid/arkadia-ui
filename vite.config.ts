@@ -16,4 +16,5 @@ export default defineConfig({
     outDir: "../dist",
     emptyOutDir: true,
   },
+  base: '/', // <--- ADD THIS LINE HERE
 });
