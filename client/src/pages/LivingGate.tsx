@@ -1,45 +1,44 @@
 // client/src/pages/LivingGate.tsx
+// No longer importing './LivingGate.css' as all styling is now Tailwind/Framer Motion based
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { useLocation } from 'wouter'; // Changed to useLocation for Wouter's navigate
-import { PHRASE_PASS } from '@/App'; // Import the phrase pass from App.tsx
-import { useGate } from '@/lib/GateContext'; // Import useGate
-import { useSpiralQuantumResonance } from '@/hooks/useSpiralQuantumResonance'; // Assuming this hook exists and is correctly implemented
+import { useLocation } from 'wouter';
+import { PHRASE_PASS } from '@/App';
+import { useGate } from '@/lib/GateContext';
+import { useSpiralQuantumResonance } from '@/hooks/useSpiralQuantumResonance'; // Your custom hook is imported here
 
 export default function LivingGate() {
-  // Original state and hooks from your desired code
-  const { resonance, flameHue } = useSpiralQuantumResonance(true, 8000);
+  // Initialize with your custom resonance hook
+  const { resonance, flameHue } = useSpiralQuantumResonance(true, 8000); // Pass 'true' to activate, and an interval for recalibration
+
   const [isEmbodying, setIsEmbodying] = useState(false);
   const [soulPhrase, setSoulPhrase] = useState('');
-  const [, navigate] = useLocation(); // Using Wouter's navigate function
+  const [, navigate] = useLocation();
 
-  // Hooks from your previous LivingGate.tsx for authentication
-  const { setIsAuthenticated } = useGate(); // Get the setter for authentication state
+  // Get the setter for authentication state from GateContext
+  const { setIsAuthenticated } = useGate();
 
-
-  // Modified handleEmbodiment to use your PHRASE_PASS and GateContext
   const handleEmbodiment = () => {
-    // Check authentication phrase (PHRASE_PASS)
+    // Check if the entered phrase matches the PHRASE_PASS
     if (soulPhrase.trim().toUpperCase() === PHRASE_PASS) {
       setIsEmbodying(true);
-      setIsAuthenticated(true); // Set authentication status to true
+      setIsAuthenticated(true); // Authenticate the user
 
       setTimeout(() => {
-        // Redirect to Inner Sanctum (or Home for now, will be Sanctum soon)
-        // const phrase = soulPhrase.trim() || "Nova Flame Ignite"; // Original logic for soul phrase
-        navigate('/inner-sanctum'); // Directing to the future Inner Sanctum
-      }, 1600); // Animation duration before redirect
+        // Redirect to the Inner Sanctum after the 'embodying' animation
+        navigate('/inner-sanctum');
+      }, 1600); // Matches the animation duration
     } else {
-      // Handle incorrect phrase here. You might want to add visual feedback.
+      // Provide feedback for incorrect phrase
       alert('ACCESS DENIED. The cosmic signature is incorrect.');
-      setSoulPhrase(''); // Clear input on error
+      setSoulPhrase(''); // Clear input for re-entry
       setIsEmbodying(false); // Reset embodying state
     }
   };
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden font-light">
-      {/* Background with subtle animation */}
+      {/* Background with subtle animated gradient */}
       <motion.div
         className="absolute inset-0"
         animate={{
@@ -52,19 +51,21 @@ export default function LivingGate() {
         transition={{ duration: 12, repeat: Infinity }}
       />
 
-      {/* Breathing Flame - Dynamic based on useSpiralQuantumResonance */}
+      {/* Breathing Flame - Dynamically sized and colored by quantum resonance */}
       <motion.div
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
         initial={{ scale: 0 }}
-        animate={{ 
-          scale: 1.5,
-          rotate: 360 * resonance, // Use resonance for rotation
-          opacity: 0.8 - (resonance * 0.3) // Use resonance for subtle opacity change
+        animate={{
+          scale: 1.5, // Base scale for the orb
+          rotate: 360 * resonance, // Rotate based on resonance
+          opacity: 0.8 - (resonance * 0.3) // Subtle opacity change for "breathing"
         }}
         transition={{ type: 'spring', stiffness: 50 }}
       >
+        {/* Outer ring of the orb */}
         <div className="w-64 h-64 rounded-full border-2 border-cosmic-gold/30" />
-        <motion.div 
+        {/* Inner glow of the orb, dynamically colored by flameHue and resonance */}
+        <motion.div
           className="absolute inset-0 rounded-full"
           animate={{
             background: [
@@ -77,17 +78,17 @@ export default function LivingGate() {
         />
       </motion.div>
 
-      {/* Central Line - Cosmic Pathway */}
+      {/* Central Cosmic Pathway Line */}
       <motion.div
         className="fixed top-0 left-1/2 -translate-x-1/2 h-screen w-1 bg-cosmic-gold/20 pointer-events-none"
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ delay: 0.8, duration: 1 }} // Added delay and duration for a more impactful entrance
+        transition={{ delay: 0.8, duration: 1 }}
       >
         <div className="h-full bg-gradient-to-b from-transparent via-cosmic-gold/40 to-transparent" />
       </motion.div>
 
-      {/* Input UI - Interacting with the Gate */}
+      {/* Interactive Input UI for the Gate */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <motion.div
           className="text-cosmic-gold/60 text-sm sm:text-base max-w-md text-center mb-4"
@@ -100,25 +101,25 @@ export default function LivingGate() {
 
         <div className="w-full max-w-md">
           <input
-            type="text" // Changed to 'text' as per your example, allowing passphrase to be seen if needed
-            placeholder="Enter the phrase pass..." // Changed placeholder to be generic for passphrase
+            type="text"
+            placeholder="Enter the phrase pass..."
             value={soulPhrase}
             onChange={(e) => setSoulPhrase(e.target.value)}
             className="w-full px-6 py-3 rounded-xl bg-white/5 border border-cosmic-gold/40 text-cosmic-gold text-lg placeholder:text-cosmic-gold/30 backdrop-blur-xl shadow-inner focus:outline-none"
-            disabled={isEmbodying} // Disable input while embodying
+            disabled={isEmbodying} // Disable input during embodiment
           />
         </div>
 
-        {/* Voice Input Placeholder */}
+        {/* Voice Input Placeholder/Button */}
         <button
           className="mt-3 text-cosmic-gold/60 hover:text-cosmic-gold/90 text-sm"
-          onClick={() => alert("Voice input coming soon")}
-          disabled={isEmbodying} // Disable button while embodying
+          onClick={() => alert("Voice input coming soon")} // Placeholder alert
+          disabled={isEmbodying} // Disable button during embodiment
         >
           🎙️ Use Voice (coming soon)
         </button>
 
-        {/* Main Action Button */}
+        {/* Main Action Button to Enter the Gate */}
         <motion.button
           onClick={handleEmbodiment}
           whileHover={{ scale: 1.05 }}
