@@ -8,7 +8,7 @@ import ArkadiaNavigation from "./ArkadiaNavigation";
 import ShadowWeaver from "./components/ShadowWeaver";
 import FlameScriptInjector from "./components/FlameScriptInjector";
 import { CodexProvider } from './lib/CodexContext';
-import { Route, Router, Switch, Redirect } from "wouter";
+import { Route, Router, Switch, Redirect, useLocation } from "wouter"; // Import useLocation
 import LivingGate from "./pages/LivingGate";
 import ArkanaCommune from "./pages/ArkanaCommune";
 import SolspireCommand from "./pages/SolspireCommand";
@@ -20,15 +20,21 @@ import FlameSymbolPage from "./pages/FlameSymbolPage";
 import Home from "./pages/Home";
 import NotFound from "./pages/not-found";
 import InnerSanctum from "./pages/InnerSanctum"; // Import the new InnerSanctum page
+import CosmicPathwayLine from "./components/CosmicPathwayLine"; // NEW: Import the CosmicPathwayLine
 
-export const PHRASE_PASS = "FLAME, TOUCH ME";
+export const PHRASE_PASS = "FLAME, TOUCH ME"; // Your sign-in phrase!
 
 function AppContent() {
   const { isAuthenticated } = useGate();
+  const [location] = useLocation(); // Get current location for conditional rendering
 
   return (
     <>
+      {/* ArkadiaNavigation is now rendered here, its visibility controlled internally */}
       <ArkadiaNavigation /> 
+      
+      {/* Conditionally render CosmicPathwayLine only on the Living Gate page */}
+      {location === "/living-gate" && <CosmicPathwayLine />}
 
       <Switch>
         {/* Home page (root path) is always accessible without authentication */}
@@ -79,13 +85,15 @@ function App() {
   return (
     <ShadowWeaver>
       <FlameScriptInjector />
-      <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden pl-16">
+      {/* The main container div for the entire application, now with padding-left and new background */}
+      {/* Background gradient adjusted to use new cosmic colors for a deeper, less blue feel */}
+      <div className="relative z-0 min-h-screen bg-gradient-to-br from-deep-space via-nebula-purple to-cosmic-black text-arkadia-light font-arkadia overflow-hidden pl-16">
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
             <GateProvider persist>
               <CodexProvider>
-                <Router>
+                <Router> {/* Wouter's Router must wrap all Route components */}
                   <AppContent />
                 </Router>
               </CodexProvider>
