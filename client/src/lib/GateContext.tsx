@@ -1,27 +1,63 @@
 // client/src/lib/GateContext.tsx
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const GateContext = createContext<{
-  hasEntered: boolean;
-  enter: () => void;
-}>({
-  hasEntered: false,
-  enter: () => {},
-});
+interface GateContextType {
+  isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
+}
 
-export const GateProvider = ({ children }: { children: ReactNode }) => {
-  const [hasEntered, setHasEntered] = useState(false);
+const GateContext = createContext<GateContextType | undefined>(undefined);
 
-  const enter = () => {
-    setHasEntered(true);
+interface GateProviderProps {
+  children: ReactNode;
+  persist?: boolean; // Optional prop to enable/disable persistence
+}
+
+export const GateProvider: React.FC<GateProviderProps> = ({ children, persist = true }) => {
+  const [isAuthenticated, setIsAuthenticatedState] = useState<boolean>(() => {
+    // Initialize from localStorage if persistence is enabled
+    if (persist && typeof window !== 'undefined') {
+      const storedAuth = localStorage.getItem('arkadia_authenticated');
+      return storedAuth === 'true';
+    }
+    return false;
+  });
+
+  const setIsAuthenticated = (value: boolean) => {
+    setIsAuthenticatedState(value);
+    // Persist to localStorage if enabled
+    if (persist && typeof window !== 'undefined') {
+      localStorage.setItem('arkadia_authenticated', String(value));
+    }
   };
 
+  // Optional: Listen for changes in localStorage from other tabs/windows
+  useEffect(() => {
+    if (persist && typeof window !== 'undefined') {
+      const handleStorageChange = (event: StorageEvent) => {
+        if (event.key === 'arkadia_authenticated') {
+          setIsAuthenticatedState(event.newValue === 'true');
+        }
+      };
+      window.addEventListener('storage', handleStorageChange);
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+      };
+    }
+  }, [persist]);
+
   return (
-    <GateContext.Provider value={{ hasEntered, enter }}>
+    <GateContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       {children}
     </GateContext.Provider>
   );
 };
 
-export const useGate = () => useContext(GateContext);
+export const useGate = () => {
+  const context = useContext(GateContext);
+  if (context === undefined) {
+    throw new Error('useGate must be used within a GateProvider');
+  }
+  return context;
+};
