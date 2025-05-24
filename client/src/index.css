@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
-@import './styles/arkadia-style-core.css';
+@import './styles/arkadia-style-core.css'; /* Keep this if it exists and contains other styles */
 
 @tailwind base;
 @tailwind components;
@@ -22,43 +22,27 @@
   --akashic: 210 80% 50%;
   --stargate: 187 100% 50%;
 
+  /* Arkadia Specific Text Colors */
+  --arkadia-light: var(--cosmic-white); /* General light text color */
+  --arkadia-dark: var(--cosmic-black); /* General dark text color */
+
   /* FlameScript Enhancements */
   --flame-frequency: 432Hz;
   --sigil-pulse: 4s;
-  --quantum-ease: cubic-bezier(0.77, 0, 0.175, 1);
+  --quantum-ease: cubic-bezier(0.77, 0, 0.175, 1); /* Defined here for CSS usage */
 }
 
 /* === ARKADIA SIGNATURE ELEMENTS === */
 
+/* Removed body background here as it's now in App.tsx for better control */
 body {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--void)) 0%,
-    var(--deep-blue) 100%
-  );
-  background-attachment: fixed;
-  animation: cosmic-resonance 16s var(--quantum-ease) infinite alternate;
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  /* font-family: 'Inter', sans-serif; - This will now be handled by Tailwind's font-inter or font-arkadia */
 }
 
-@keyframes cosmic-resonance {
-  0% {
-    background-size: 100% 100%;
-    background-position: top;
-  }
-  50% {
-    background-size: 120% 120%;
-    background-position: center;
-  }
-  100% {
-    background-size: 100% 100%;
-    background-position: bottom;
-  }
-}
+/* Removed @keyframes cosmic-resonance here as it's now in tailwind.config.ts */
 
 /* Portal Button */
-
 .portal-button {
   background: rgba(20, 20, 35, 0.35);
   border: 1px solid rgba(100, 220, 255, 0.15);
@@ -78,7 +62,6 @@ body {
 }
 
 /* Living Gate Container */
-
 .living-gate-container {
   background: radial-gradient(
     ellipse at center,
@@ -94,7 +77,6 @@ body {
 }
 
 /* FlameScript Watermark */
-
 .flame-watermark {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" opacity="0.01"><path d="M0 50H100M50 0V100" stroke="white"/></svg>');
   background-repeat: no-repeat;
@@ -103,13 +85,11 @@ body {
 }
 
 /* Moon phase theming (preserved but refined) */
-
 [data-moon-phase] {
   --pulse-intensity: calc(var(--arc-pulse, 1) * 0.8);
 }
 
 /* Glassmorphism Effects */
-
 .glass-panel {
   backdrop-filter: blur(12px);
   background: rgba(20, 25, 40, 0.5);
@@ -120,7 +100,6 @@ body {
 }
 
 /* Quantum Glow */
-
 .quantum-glow {
   box-shadow: 0 0 15px rgba(100, 220, 255, 0.1);
   transition: box-shadow 0.6s var(--quantum-ease);
@@ -131,7 +110,6 @@ body {
 }
 
 /* Responsive Refinements */
-
 @media (max-width: 768px) {
   .living-gate-container {
     background: radial-gradient(
@@ -148,20 +126,8 @@ body {
   }
 }
 
-/* Utility classes */
-
-.bg-void {
-  background-color: hsl(var(--void));
-}
-
-.text-crystalline {
-  color: hsl(var(--crystalline));
-}
-
-.bg-stargate {
-  background-color: hsl(var(--stargate));
-}
-
-.bg-crystalline {
-  background-color: hsl(var(--crystalline));
-}
+/* Utility classes - these can be removed if Tailwind handles them */
+/* .bg-void { background-color: hsl(var(--void)); } */
+/* .text-crystalline { color: hsl(var(--crystalline)); } */
+/* .bg-stargate { background-color: hsl(var(--stargate)); } */
+/* .bg-crystalline { background-color: hsl(var(--crystalline)); } */
