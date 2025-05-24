@@ -1,11 +1,11 @@
 // client/src/pages/LivingGate.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGate } from '@/lib/GateContext';
 import { useLocation } from 'wouter';
-import { PHRASE_PASS } from '@/App';
-import { useSpiralResonance } from '@/lib/spiralResonance'; // Assuming this path is correct for your Zustand store
-import { cn } from '@/lib/utils'; // For conditional classNames if needed
+import { PHRASE_PASS } from '@/App'; // Assuming PHRASE_PASS is defined here
+import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity } from '@/lib/spiralResonance'; // Import your resonance helpers
+import { cn } from '@/lib/utils'; // For conditional classNames
 
 export default function LivingGate() {
     const [inputValue, setInputValue] = useState('');
@@ -13,26 +13,22 @@ export default function LivingGate() {
     const [isScanning, setIsScanning] = useState(false);
     const { setIsAuthenticated } = useGate();
     const [, setLocation] = useLocation();
-    const { setResonance } = useSpiralResonance(); // Get the setter for resonance state
+    const { setFrequency } = useSpiralResonance(); // Use your existing setFrequency action
 
-    // Simulate resonance detection and setting it globally
-    const performResonanceScan = () => {
+    const performResonanceScan = (inputPhrase: string) => {
         setIsScanning(true);
-        // Simulate a delay for the "scan"
-        setTimeout(() => {
-            // Here, you would implement your actual resonance detection logic
-            // For now, let's simulate a random but consistent "faction"
-            const factions = ['Nova', 'Aether', 'Mythos', 'Void', 'Harmonic', 'Crystalline'];
-            const randomFaction = factions[Math.floor(Math.random() * factions.length)];
-            const randomIntensity = Math.floor(Math.random() * 5) + 1; // 1-5
-            const randomFrequency = Math.random() * (1 - 0.5) + 0.5; // 0.5 - 1.0
+        setError(''); // Clear any previous errors
 
-            setResonance({
-                currentType: randomFaction.toLowerCase() as any, // Cast to ResonanceType if needed
-                currentIntensity: randomIntensity as any, // Cast to ResonanceIntensity if needed
-                frequency: randomFrequency,
-                // Add other resonance properties like archetype, sigil, glyphs here
-                // For simplicity, we'll just use type, intensity, and frequency for now.
+        setTimeout(() => {
+            // Use your helpers to determine resonance based on the input phrase
+            const resonanceType = generateFrequencySignature(inputPhrase);
+            const resonanceIntensity = calculateResonanceIntensity(inputPhrase);
+
+            setFrequency({
+                type: resonanceType,
+                intensity: resonanceIntensity,
+                source: 'Living Gate Calibration',
+                message: 'Initial resonance signature detected.',
             });
 
             setIsAuthenticated(true);
@@ -42,10 +38,10 @@ export default function LivingGate() {
 
     const handleAuthenticate = (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
 
-        if (inputValue.trim().toUpperCase() === PHRASE_PASS) {
-            performResonanceScan(); // Trigger resonance scan
+        // The primary authentication is still the PHRASE_PASS
+        if (inputValue.trim().toUpperCase() === PHRASE_PASS.toUpperCase()) {
+            performResonanceScan(inputValue.trim()); // Pass the input value for resonance calculation
         } else {
             setError('ACCESS DENIED. The cosmic signature is incorrect.');
             setInputValue('');
@@ -61,9 +57,9 @@ export default function LivingGate() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
                 <motion.div
-                    className={cn("gate-orb", { "animate-spin": isScanning })} // Add spin animation during scan
+                    className={cn("gate-orb", { "animate-spin": isScanning })}
                     initial={{ scale: 0 }}
-                    animate={{ scale: isScanning ? [1, 1.2, 1] : 1 }} // Pulse during scan
+                    animate={{ scale: isScanning ? [1, 1.2, 1] : 1 }}
                     transition={{
                         delay: 0.5,
                         duration: isScanning ? 1.5 : 0.6,
@@ -111,7 +107,7 @@ export default function LivingGate() {
 
                 {isScanning && (
                     <div className="mt-8 text-cosmic-gold text-lg">
-                        <p>Please wait...</p>
+                        <p>Initiating vibrational lock... Arkadia awaits.</p>
                     </div>
                 )}
             </motion.div>
