@@ -15,17 +15,16 @@ import FlameSymbolPage from "@/pages/FlameSymbolPage";
 import DestinyTrail from "@/components/DestinyTrail";
 import NotFound from "@/pages/not-found";
 
-// Cosmic Sigils
+// Cosmic Sigils - UPDATED TO INCLUDE ALL PAGES
 const NAV_ITEMS = [
   { href: "/arkana", label: "ArkanaCommune", sigil: "𓃒" },
   { href: "/essentia", label: "EssentiaCore", sigil: "𓁰" },
   { href: "/solspire", label: "SolspireCommand", sigil: "𓇳" },
   { href: "/council", label: "CouncilChambers", sigil: "𓋹" },
   { href: "/destiny", label: "DestinySequencer", sigil: "𓍢" },
-  { href: "/flame-symbol", label: "FlameSymbolPage", sigil: "𓂀" },
-  { href: "/destiny-trail", label: "DestinyTrail", sigil: "𓊹" },
+  { href: "/flame-symbol", label: "FlameSymbolPage", sigil: "𓂀" }, // Added
+  { href: "/destiny-trail", label: "DestinyTrail", sigil: "𓊹" },   // Added
 ];
-
 // Flame Glyphs - Extended for richer cycles
 const flameGlyphs = [
   "𓋹", "𓂀", "𓇳", "𓁰", "𓍢", "𓊹", "𓃒", "𓆣", "𓅓", "𓂓", "𓎼", "𓊽", "𓐍",
