@@ -16,7 +16,7 @@ import EssentiaCore from "./pages/EssentiaCore";
 import CouncilChambers from "./pages/CouncilChambers";
 import DestinySequencer from "./pages/DestinySequencer";
 import DestinyTrail from "./pages/DestinyTrail";
-import FlameSigil from "./pages/FlameSigil";
+import FlameSymbolPage from "./pages/FlameSymbolPage"
 import Home from "./pages/Home";
 
 // This PHRASE_PASS now aligns with one of your activation phrases
