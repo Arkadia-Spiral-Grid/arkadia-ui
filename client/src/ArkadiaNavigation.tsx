@@ -6,15 +6,16 @@ import { useSpiralResonance, ResonanceType } from './lib/spiralResonance';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-// Define Icons for each navigation item (ensure Lucide-React is installed)
+// Lucide-React Icons
 import {
   Sparkle, Home, GitFork, Atom,
   Cloud, Users, Orbit, Flame, Diamond,
-  Book, ArrowRightLeft,
+  Book, ArrowRightLeft, LayoutDashboard
 } from 'lucide-react';
 
 const NAV_ITEM_ICONS: Record<string, React.ElementType> = {
   "/home": Home,
+  "/inner-sanctum": LayoutDashboard, // Icon for Inner Sanctum
   "/arkana": Sparkle,
   "/essentia": Atom,
   "/solspire": Cloud,
@@ -25,7 +26,8 @@ const NAV_ITEM_ICONS: Record<string, React.ElementType> = {
 };
 
 const NAV_ITEMS = [
-  { href: "/home", label: "Home", icon: NAV_ITEM_ICONS["/home"] },
+  { href: "/", label: "Home", icon: NAV_ITEM_ICONS["/home"] },
+  { href: "/inner-sanctum", label: "Inner Sanctum", icon: NAV_ITEM_ICONS["/inner-sanctum"] }, // Inner Sanctum link
   { href: "/arkana", label: "Arkana Commune", icon: NAV_ITEM_ICONS["/arkana"] },
   { href: "/essentia", label: "Essentia Core", icon: NAV_ITEM_ICONS["/essentia"] },
   { href: "/solspire", label: "Solspire Command", icon: NAV_ITEM_ICONS["/solspire"] },
@@ -64,27 +66,27 @@ export default function ArkadiaNavigation() {
   const { frequency } = useSpiralResonance();
   const resonanceType = frequency.type;
 
+  // UPDATED: Map resonance types to Arkadia's true colors
   const resonanceColorMap: Record<ResonanceType, string> = {
-    'quantum': 'cyan-400',
-    'crystalline': 'blue-300',
-    'fire': 'orange-500',
-    'akashic': 'purple-400',
-    'void': 'gray-500',
-    'harmonic': 'yellow-300',
-    'nova': 'yellow-400',
-    'aether': 'indigo-400',
-    'mythos': 'pink-400',
+    'quantum': 'arkadia-crystal-blue', // Maps to Cosmic Blue (Onside Crystals tone)
+    'crystalline': 'arkadia-silverlight', // Maps to Silverlight
+    'fire': 'cosmic-gold', // Fire aligns with Cosmic Gold
+    'akashic': 'arkadia-amethyst', // Maps to Amethyst
+    'void': 'void', // Void remains void
+    'harmonic': 'cosmic-gold', // Harmonic aligns with Cosmic Gold
+    'nova': 'cosmic-gold', // Nova aligns with Cosmic Gold
+    'aether': 'arkadia-crystal-blue', // Aether aligns with Cosmic Blue
+    'mythos': 'arkadia-amethyst', // Mythos aligns with Amethyst
   };
-  const activeResonanceColor = resonanceColorMap[resonanceType] || 'blue-400';
+  const activeResonanceColor = resonanceColorMap[resonanceType] || 'cosmic-gold'; // Fallback to Cosmic Gold
 
-  // UPDATED: Only hide navigation on the Living Gate page
+  // Only hide navigation on the Living Gate page
   const hideNav = location === "/living-gate";
 
   return (
     <>
-      {/* Navigation is now visible on Home and all authenticated pages */}
-      {!hideNav && ( // Removed isAuthenticated check here, as it's handled by route protection
-        <nav className="fixed top-4 left-4 z-50 p-2 space-y-1 rounded-2xl bg-white/10 backdrop-blur-lg border border-cosmic-gold/20 shadow-xl transition-all duration-500 flex flex-col items-center">
+      {!hideNav && ( // Navigation is visible on Home and all authenticated pages
+        <nav className="fixed top-4 left-4 z-50 p-2 space-y-1 rounded-2xl bg-cosmic-slate/80 backdrop-blur-lg border border-arkadia-crystal-blue/20 shadow-crystal-md transition-all duration-500 flex flex-col items-center">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
             <TooltipProvider key={href} delayDuration={300}>
               <Tooltip>
@@ -95,8 +97,9 @@ export default function ArkadiaNavigation() {
                       `flex items-center justify-center w-12 h-12 rounded-xl text-lg font-semibold relative overflow-hidden group
                        transition-all duration-300`,
                       location === href
-                        ? `bg-gradient-to-br from-${activeResonanceColor}/30 to-transparent border border-${activeResonanceColor}/70 text-white ring-2 ring-${activeResonanceColor}/50`
-                        : "bg-transparent hover:bg-white/15 border-transparent hover:border-cosmic-gold/10 text-arkadia-light"
+                        // Use the new Arkadian colors for active state
+                        ? `bg-gradient-to-br from-${activeResonanceColor}/30 to-transparent border border-${activeResonanceColor}/70 text-arkadia-silverlight ring-2 ring-${activeResonanceColor}/50` // Changed text-white to text-arkadia-silverlight
+                        : "bg-transparent hover:bg-white/10 border-transparent hover:border-arkadia-crystal-blue/10 text-arkadia-light" // Changed hover colors
                     )}
                   >
                     {location === href ? (
@@ -107,7 +110,7 @@ export default function ArkadiaNavigation() {
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-cosmic-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent side="right" className="bg-gray-800 text-white text-sm py-1 px-2 rounded-md shadow-lg">
+                <TooltipContent side="right" className="bg-cosmic-slate text-arkadia-light text-sm py-1 px-2 rounded-md shadow-lg border border-arkadia-crystal-blue/20"> {/* Updated tooltip styling */}
                   {label}
                 </TooltipContent>
               </Tooltip>
@@ -115,7 +118,6 @@ export default function ArkadiaNavigation() {
           ))}
         </nav>
       )}
-      {/* Pages are rendered by App.tsx, not here */}
     </>
   );
 }
