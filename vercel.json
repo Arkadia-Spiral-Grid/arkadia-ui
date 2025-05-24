@@ -19,7 +19,7 @@
       "src": "/favicon.ico",
       "dest": "/favicon.ico"
     },
-    // Fallback for all other paths (e.g., /about, /contact) to index.html for SPA routing
+    // Fallback for all other paths (e.g., /about, /) to index.html for SPA routing
     {
       "src": "/(.*)",
       "dest": "/index.html"
