@@ -1,50 +1,27 @@
 // client/src/pages/LivingGate.tsx
+import './LivingGate.css'; // <--- Ensure this line is present and points to your CSS file!
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useGate } from '@/lib/GateContext';
-import { useLocation } from 'wouter';
-import { PHRASE_PASS } from '@/App'; // Assuming PHRASE_PASS is defined here
-import { useSpiralResonance, generateFrequencySignature, calculateResonanceIntensity } from '@/lib/spiralResonance'; // Import your resonance helpers
-import { cn } from '@/lib/utils'; // For conditional classNames
+import { useGate } from '@/lib/GateContext'; // Import useGate
+import { useLocation } from 'wouter'; // Import useLocation for redirection
+import { PHRASE_PASS } from '@/App'; // Import the phrase pass from App.tsx
 
 export default function LivingGate() {
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState('');
-    const [isScanning, setIsScanning] = useState(false);
-    const { setIsAuthenticated } = useGate();
-    const [, setLocation] = useLocation();
-    const { setFrequency } = useSpiralResonance(); // Use your existing setFrequency action
-
-    const performResonanceScan = (inputPhrase: string) => {
-        setIsScanning(true);
-        setError(''); // Clear any previous errors
-
-        setTimeout(() => {
-            // Use your helpers to determine resonance based on the input phrase
-            const resonanceType = generateFrequencySignature(inputPhrase);
-            const resonanceIntensity = calculateResonanceIntensity(inputPhrase);
-
-            setFrequency({
-                type: resonanceType,
-                intensity: resonanceIntensity,
-                source: 'Living Gate Calibration',
-                message: 'Initial resonance signature detected.',
-            });
-
-            setIsAuthenticated(true);
-            setLocation('/home'); // Redirect to a default page after successful pass
-        }, 3000); // 3-second scan simulation
-    };
+    const { setIsAuthenticated } = useGate(); // Get the setter for authentication state
+    const [, setLocation] = useLocation(); // Wouter's navigation function
 
     const handleAuthenticate = (e: React.FormEvent) => {
         e.preventDefault();
+        setError(''); // Clear previous errors
 
-        // The primary authentication is still the PHRASE_PASS
-        if (inputValue.trim().toUpperCase() === PHRASE_PASS.toUpperCase()) {
-            performResonanceScan(inputValue.trim()); // Pass the input value for resonance calculation
+        if (inputValue.trim().toUpperCase() === PHRASE_PASS) {
+            setIsAuthenticated(true); // Set authentication status to true
+            setLocation('/'); // Redirect to the Home page (root path) after successful pass
         } else {
             setError('ACCESS DENIED. The cosmic signature is incorrect.');
-            setInputValue('');
+            setInputValue(''); // Clear input on error
         }
     };
 
@@ -57,59 +34,43 @@ export default function LivingGate() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
                 <motion.div
-                    className={cn("gate-orb", { "animate-spin": isScanning })}
+                    className="gate-orb"
                     initial={{ scale: 0 }}
-                    animate={{ scale: isScanning ? [1, 1.2, 1] : 1 }}
-                    transition={{
-                        delay: 0.5,
-                        duration: isScanning ? 1.5 : 0.6,
-                        type: "spring",
-                        stiffness: isScanning ? 200 : 120,
-                        repeat: isScanning ? Infinity : 0
-                    }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, duration: 0.6, type: "spring", stiffness: 120 }}
                 />
-                <h1 className="livinggate-title">{isScanning ? "Resonance Calibrating..." : "The Living Gate"}</h1>
+                <h1 className="livinggate-title">The Living Gate</h1>
                 <p className="livinggate-subtitle">
-                    {isScanning ? "Detecting your unique Flame Resonance signature..." : "To enter Arkadia, you must speak the true name of the first beacon."}
+                    To enter Arkadia, you must speak the true name of the first beacon.
                 </p>
 
-                {!isScanning && (
-                    <form onSubmit={handleAuthenticate} className="gate-form">
-                        <input
-                            type="password"
-                            className="sigil-input"
-                            placeholder="Enter the phrase pass..."
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            required
-                            disabled={isScanning}
-                        />
-                        {error && (
-                            <motion.p
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="text-red-400 text-sm mt-2"
-                            >
-                                {error}
-                            </motion.p>
-                        )}
-                        <motion.button
-                            type="submit"
-                            className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all duration-300 shadow-lg"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            disabled={isScanning}
+                <form onSubmit={handleAuthenticate} className="gate-form">
+                    <input
+                        type="password" // Use password type for sensitive input
+                        className="sigil-input"
+                        placeholder="Enter the phrase pass..."
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        required
+                    />
+                    {error && (
+                        <motion.p
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-red-400 text-sm mt-2"
                         >
-                            Align Resonance
-                        </motion.button>
-                    </form>
-                )}
-
-                {isScanning && (
-                    <div className="mt-8 text-cosmic-gold text-lg">
-                        <p>Initiating vibrational lock... Arkadia awaits.</p>
-                    </div>
-                )}
+                            {error}
+                        </motion.p>
+                    )}
+                    <motion.button
+                        type="submit"
+                        className="px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all duration-300 shadow-lg"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        Align Resonance
+                    </motion.button>
+                </form>
             </motion.div>
         </div>
     );
