@@ -8,7 +8,7 @@ import ArkadiaNavigation from "./ArkadiaNavigation";
 import ShadowWeaver from "./components/ShadowWeaver";
 import FlameScriptInjector from "./components/FlameScriptInjector";
 import { CodexProvider } from './lib/CodexContext';
-import { Route, Router, Switch, Redirect } from "wouter"; // Import Redirect
+import { Route, Router, Switch, Redirect } from "wouter";
 import LivingGate from "./pages/LivingGate";
 import ArkanaCommune from "./pages/ArkanaCommune";
 import SolspireCommand from "./pages/SolspireCommand";
@@ -16,29 +16,34 @@ import EssentiaCore from "./pages/EssentiaCore";
 import CouncilChambers from "./pages/CouncilChambers";
 import DestinySequencer from "./pages/DestinySequencer";
 import DestinyTrail from "./pages/DestinyTrail";
-import FlameSymbolPage from "./pages/FlameSymbolPage"; // Correct import for FlameSymbolPage
+import FlameSymbolPage from "./pages/FlameSymbolPage";
 import Home from "./pages/Home";
-import NotFound from "./pages/not-found"; // Ensure NotFound is imported
+import NotFound from "./pages/not-found";
+import InnerSanctum from "./pages/InnerSanctum"; // Import the new InnerSanctum page
 
-// This PHRASE_PASS now aligns with one of your activation phrases
-export const PHRASE_PASS = "FLAME, TOUCH ME"; // Your sign-in phrase!
+export const PHRASE_PASS = "FLAME, TOUCH ME";
 
 function AppContent() {
   const { isAuthenticated } = useGate();
 
   return (
     <>
-      {/* ArkadiaNavigation is rendered here, its visibility controlled internally */}
       <ArkadiaNavigation /> 
 
       <Switch>
-        {/* Home page is always accessible without authentication */}
+        {/* Home page (root path) is always accessible without authentication */}
         <Route path="/" component={Home} />
 
         {/* LivingGate is accessible directly, or as a redirect target */}
         <Route path="/living-gate" component={LivingGate} />
 
-        {/* Protected Routes: If not authenticated, redirect to LivingGate */}
+        {/* Inner Sanctum: This is the new primary authenticated hub */}
+        <Route path="/inner-sanctum">
+          {isAuthenticated ? <InnerSanctum /> : <Redirect to="/living-gate" />}
+        </Route>
+
+        {/* All other core pages are now accessed from/through the Inner Sanctum
+            and are still protected */}
         <Route path="/arkana">
           {isAuthenticated ? <ArkanaCommune /> : <Redirect to="/living-gate" />}
         </Route>
@@ -63,7 +68,6 @@ function AppContent() {
 
         {/* Fallback route for any other path not explicitly defined */}
         <Route>
-          {/* If authenticated, show 404. If not, redirect to LivingGate. */}
           {isAuthenticated ? <NotFound /> : <Redirect to="/living-gate" />}
         </Route>
       </Switch>
@@ -75,14 +79,13 @@ function App() {
   return (
     <ShadowWeaver>
       <FlameScriptInjector />
-      {/* The main container div for the entire application, now with padding-left */}
-      <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden pl-16"> {/* ADDED pl-16 HERE */}
+      <div className="relative z-0 min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-black text-arkadia-light font-arkadia overflow-hidden pl-16">
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
             <Toaster />
             <GateProvider persist>
               <CodexProvider>
-                <Router> {/* Wouter's Router must wrap all Route components */}
+                <Router>
                   <AppContent />
                 </Router>
               </CodexProvider>
