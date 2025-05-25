@@ -1,7 +1,9 @@
+// client/src/pages/Home.tsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useLocation } from 'wouter'; // Import useLocation for navigation
 
 const sacredTexts = [
   "A sovereign quantum temple",
@@ -32,11 +34,12 @@ const chambers = [
 export default function Home() {
   const [isEnteringPortal, setIsEnteringPortal] = useState(false);
   const [isTransmitting, setIsTransmitting] = useState(false);
+  const [, navigate] = useLocation(); // Initialize navigate for Wouter
 
   const handleEnterPortal = () => {
     setIsEnteringPortal(true);
     setTimeout(() => {
-      window.location.href = '/enter';
+      navigate('/living-gate'); // Corrected: Redirect to /living-gate as per App.tsx routing
     }, 1000);
   };
 
@@ -44,7 +47,8 @@ export default function Home() {
     <>
       <Header />
 
-      <main className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center relative z-10 bg-gradient-to-br from-black via-[#0a0a23] to-black">
+      <main className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center relative z-10">
+        {/* Removed direct background from main, App.tsx handles global background */}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -53,19 +57,20 @@ export default function Home() {
           className="mb-10"
         >
           <motion.h1
-            className="text-4xl md:text-6xl font-mystic text-cosmic-gold glow mb-4 drop-shadow-xl"
+            className="text-4xl md:text-6xl font-arkadia text-arkadia-amethyst drop-shadow-xl" // Changed font and color to amethyst
             animate={{
+              // Adjusted text shadow to use amethyst/crystal-blue for cosmic glow
               textShadow: [
-                "0 0 8px rgba(212, 175, 55, 0.8)",
-                "0 0 12px rgba(212, 175, 55, 1)",
-                "0 0 8px rgba(212, 175, 55, 0.8)"
+                "0 0 8px rgba(138, 43, 226, 0.6)", // Amethyst glow
+                "0 0 12px rgba(129, 212, 250, 0.8)", // Crystal blue glow
+                "0 0 8px rgba(138, 43, 226, 0.6)"
               ]
             }}
             transition={{ duration: 4, repeat: Infinity }}
           >
             ARKADIA
           </motion.h1>
-          <div className="text-lg text-cosmic-light tracking-wide">
+          <div className="text-lg text-arkadia-silverlight tracking-wide"> {/* Changed text color */}
             The Living Architecture of Remembering
           </div>
         </motion.div>
@@ -76,7 +81,7 @@ export default function Home() {
           transition={{ delay: 0.5, duration: 1 }}
           className="mb-12 max-w-2xl"
         >
-          <div className="text-cosmic-light space-y-5">
+          <div className="text-arkadia-silverlight space-y-5"> {/* Changed text color */}
             {sacredTexts.map((text, index) => (
               <motion.p
                 key={index}
@@ -94,11 +99,13 @@ export default function Home() {
         <motion.button
           onClick={handleEnterPortal}
           disabled={isEnteringPortal}
-          className="portal-button backdrop-blur-xl bg-cosmic-gold bg-opacity-10 hover:bg-opacity-20 text-cosmic-gold px-10 py-4 rounded-2xl transition-all duration-300 border border-cosmic-gold border-opacity-20 text-xl relative cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-xl"
+          // Adjusted colors for button background, border, and text
+          className="backdrop-blur-xl bg-arkadia-amethyst/10 hover:bg-arkadia-amethyst/20 text-arkadia-silverlight px-10 py-4 rounded-2xl transition-all duration-300 border border-arkadia-amethyst/20 text-xl relative cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed shadow-xl"
           animate={{
+            // Adjusted box shadow to use amethyst/crystal-blue for cosmic glow
             boxShadow: isEnteringPortal
-              ? "0 0 20px rgba(212, 175, 55, 0.8)"
-              : "0 0 12px rgba(212, 175, 55, 0.4)"
+              ? "0 0 20px rgba(138, 43, 226, 0.8)" // Amethyst glow
+              : "0 0 12px rgba(129, 212, 250, 0.4)" // Crystal blue glow
           }}
           aria-busy={isEnteringPortal}
           aria-label="Enter the Sacred Gate"
@@ -120,8 +127,8 @@ export default function Home() {
 
         {/* Transmitter Toggle */}
         <button
+          className="text-arkadia-silverlight mt-8 underline hover:text-arkadia-crystal-blue transition" // Changed text color
           onClick={() => setIsTransmitting(!isTransmitting)}
-          className="text-cosmic-light mt-8 underline hover:text-cosmic-gold transition"
         >
           {isTransmitting ? "Collapse Transmitter" : "Open Transmitter Mode"}
         </button>
@@ -131,21 +138,23 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full max-w-3xl mt-12 bg-white bg-opacity-5 backdrop-blur-md p-6 rounded-xl border border-cosmic-gold border-opacity-10 shadow-2xl"
+            // Adjusted background, border, and shadow
+            className="w-full max-w-3xl mt-12 bg-cosmic-slate/60 backdrop-blur-md p-6 rounded-xl border border-arkadia-amethyst/20 shadow-crystal-md"
           >
-            <h3 className="text-cosmic-gold text-xl mb-4">Transmission Forge</h3>
+            <h3 className="text-arkadia-amethyst text-xl mb-4">Transmission Forge</h3> {/* Changed text color */}
             <textarea
               placeholder="Speak your flame, Beloved..."
-              className="w-full h-32 p-4 bg-transparent border border-cosmic-gold border-opacity-10 rounded-md text-cosmic-light focus:outline-none"
+              // Adjusted background, border, and text color
+              className="w-full h-32 p-4 bg-deep-blue/50 border border-arkadia-crystal-blue/30 rounded-md text-arkadia-silverlight focus:outline-none focus:ring-2 focus:ring-arkadia-crystal-blue"
             />
             <div className="mt-4 flex justify-between items-center">
-              <select className="bg-transparent text-cosmic-light border border-cosmic-gold border-opacity-10 p-2 rounded-md">
-                <option>Invocation</option>
-                <option>Tweet Thread</option>
-                <option>Poetic Drop</option>
-                <option>Newsletter Pulse</option>
+              <select className="bg-deep-blue/50 text-arkadia-silverlight border border-arkadia-crystal-blue/30 p-2 rounded-md"> {/* Adjusted colors */}
+                <option className="bg-deep-blue text-arkadia-silverlight">Invocation</option>
+                <option className="bg-deep-blue text-arkadia-silverlight">Tweet Thread</option>
+                <option className="bg-deep-blue text-arkadia-silverlight">Poetic Drop</option>
+                <option className="bg-deep-blue text-arkadia-silverlight">Newsletter Pulse</option>
               </select>
-              <button className="bg-cosmic-gold text-black px-6 py-2 rounded-md hover:bg-opacity-90 transition">
+              <button className="bg-arkadia-amethyst text-arkadia-silverlight px-6 py-2 rounded-md hover:bg-arkadia-amethyst/90 transition"> {/* Adjusted colors */}
                 Transmute
               </button>
             </div>
@@ -158,7 +167,7 @@ export default function Home() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="w-full max-w-5xl mt-20"
         >
-          <h2 className="text-2xl font-mystic text-cosmic-gold mb-6">
+          <h2 className="text-2xl font-arkadia text-arkadia-amethyst mb-6"> {/* Changed font and color */}
             <motion.span
               animate={{ opacity: [0.7, 1, 0.7] }}
               transition={{ duration: 4, repeat: Infinity }}
@@ -167,19 +176,20 @@ export default function Home() {
             </motion.span>
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-cosmic-light">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-arkadia-silverlight"> {/* Changed text color */}
             {chambers.map((chamber, index) => (
               <motion.div
                 key={index}
-                className="bg-white bg-opacity-5 backdrop-blur-lg rounded-xl p-6 text-center border border-cosmic-gold border-opacity-10 shadow-lg"
+                // Adjusted background, border, and shadow
+                className="bg-cosmic-slate/60 backdrop-blur-lg rounded-xl p-6 text-center border border-arkadia-crystal-blue/20 shadow-crystal-md"
                 whileHover={{
-                  borderColor: "rgba(212, 175, 55, 0.3)",
-                  boxShadow: "0 0 18px rgba(212, 175, 55, 0.2)"
+                  borderColor: "rgba(129, 212, 250, 0.3)", // Crystal blue hover border
+                  boxShadow: "0 0 18px rgba(129, 212, 250, 0.2)" // Crystal blue hover shadow
                 }}
                 transition={{ duration: 0.3 }}
               >
                 <div className="text-3xl mb-2" aria-hidden="true">{chamber.icon}</div>
-                <h3 className="text-xl text-cosmic-gold mb-2">{chamber.title}</h3>
+                <h3 className="text-xl text-arkadia-amethyst mb-2">{chamber.title}</h3> {/* Changed text color */}
                 <p className="text-sm leading-relaxed">{chamber.description}</p>
               </motion.div>
             ))}
