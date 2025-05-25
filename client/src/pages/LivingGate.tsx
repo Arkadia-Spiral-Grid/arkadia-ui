@@ -81,7 +81,7 @@ export default function LivingGate() {
       {/* Interactive Input UI for the Gate */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4 max-w-md w-full"> {/* Added max-w-md and w-full for responsiveness */}
         <motion.div
-          className="text-arkadia-silverlight/60 text-sm sm:text-base max-w-md text-center mb-4" {/* Changed text color */}
+          className="text-arkadia-silverlight/60 text-sm sm:text-base max-w-md text-center mb-4" // Changed text color
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
@@ -95,14 +95,14 @@ export default function LivingGate() {
             placeholder="Enter the phrase pass..."
             value={soulPhrase}
             onChange={(e) => setSoulPhrase(e.target.value)}
-            className="w-full px-6 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/40 text-arkadia-silverlight text-lg placeholder:text-arkadia-silverlight/30 backdrop-blur-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-arkadia-crystal-blue" {/* Updated colors */}
+            className="w-full px-6 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/40 text-arkadia-silverlight text-lg placeholder:text-arkadia-silverlight/30 backdrop-blur-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-arkadia-crystal-blue" // Updated colors
             disabled={isEmbodying} // Disable input during embodiment
           />
         </div>
 
         {/* Voice Input Placeholder/Button */}
         <button
-          className="mt-3 text-arkadia-silverlight/60 hover:text-arkadia-silverlight/90 text-sm" {/* Updated colors */}
+          className="mt-3 text-arkadia-silverlight/60 hover:text-arkadia-silverlight/90 text-sm" // Updated colors
           onClick={() => alert("Voice input coming soon")} // Placeholder alert
           disabled={isEmbodying} // Disable button during embodiment
         >
@@ -114,13 +114,14 @@ export default function LivingGate() {
           onClick={handleEmbodiment}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="mt-6 px-10 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/30 text-arkadia-silverlight text-lg backdrop-blur-md shadow-lg relative" {/* Updated colors */}
+          // Changed text color to cosmic-gold for better visibility
+          className="mt-6 px-10 py-3 rounded-xl bg-white/5 border border-arkadia-amethyst/30 text-cosmic-gold text-lg backdrop-blur-md shadow-lg relative" // Updated colors and text color
           disabled={isEmbodying || soulPhrase.trim() === ''} // Disable if embodying or input is empty
         >
           <AnimatePresence>
             {isEmbodying && (
               <motion.div
-                className="absolute inset-0 bg-arkadia-amethyst/10 rounded-xl" {/* Updated color */}
+                className="absolute inset-0 bg-arkadia-amethyst/10 rounded-xl" // Updated color
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
