@@ -10,12 +10,14 @@ import { cn } from "@/lib/utils";
 import {
   Sparkle, Home, GitFork, Atom,
   Cloud, Users, Orbit, Flame, Diamond,
-  Book, ArrowRightLeft, LayoutDashboard
+  Book, ArrowRightLeft, LayoutDashboard,
+  Building2 // NEW: Icon for Temple of Eluriah
 } from 'lucide-react';
 
 const NAV_ITEM_ICONS: Record<string, React.ElementType> = {
   "/home": Home,
-  "/inner-sanctum": LayoutDashboard, // Icon for Inner Sanctum
+  "/inner-sanctum": LayoutDashboard,
+  "/temple-of-eluriah": Building2, // NEW: Icon for Temple of Eluriah
   "/arkana": Sparkle,
   "/essentia": Atom,
   "/solspire": Cloud,
@@ -27,7 +29,8 @@ const NAV_ITEM_ICONS: Record<string, React.ElementType> = {
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: NAV_ITEM_ICONS["/home"] },
-  { href: "/inner-sanctum", label: "Inner Sanctum", icon: NAV_ITEM_ICONS["/inner-sanctum"] }, // Inner Sanctum link
+  { href: "/inner-sanctum", label: "Inner Sanctum", icon: NAV_ITEM_ICONS["/inner-sanctum"] },
+  { href: "/temple-of-eluriah", label: "Temple of Eluriah", icon: NAV_ITEM_ICONS["/temple-of-eluriah"] }, // NEW: Temple of Eluriah link
   { href: "/arkana", label: "Arkana Commune", icon: NAV_ITEM_ICONS["/arkana"] },
   { href: "/essentia", label: "Essentia Core", icon: NAV_ITEM_ICONS["/essentia"] },
   { href: "/solspire", label: "Solspire Command", icon: NAV_ITEM_ICONS["/solspire"] },
